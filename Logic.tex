@@ -1,0 +1,239 @@
+\documentclass[oneside]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage[left = 0.3\textwidth, right = 0.3\textwidth]{geometry}
+\usepackage{parskip}
+\usepackage[fleqn]{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\usepackage{textcomp}
+
+\setlength{\parskip}{0.03\textheight}
+
+\graphicspath{{images/}}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\newcommand{\meta}[1]{\text{<}#1\text{>}}
+\newcommand{\set}[1]{\left\{#1\right\}}
+
+\title{Логика: \\ упражнения}
+\date{\today}
+\author{Мы}
+
+\begin{document}
+    \maketitle
+
+    \section{Дашков ЕВ | 1.2.12}
+    Приведите к противоречию предположение о существовании множества всех множеств.
+
+    \begin{flalign*}
+        &] \ \exists x \ \forall y \in x
+        \implies
+        \exists x \in x \ \ \
+        \begin{gathered}
+            \implies \\
+            \exists \set{x, y}
+        \end{gathered} \ \ \
+        \exists x, \set{x, x} \ x \in x
+        \implies
+        \exists x, \set{x} \ x \in x \\
+        &\begin{gathered}
+            \implies \\
+            \exists y \in x \ \forall z \in z \ z \not\in y
+        \end{gathered} \ \ \
+        \exists x, \set{x} \
+        \begin{cases}
+            x \in x \\
+            \exists w \in \set{x} \ \forall i \in \set{x} \ i \not\in \set{x}
+        \end{cases}
+        \implies \\
+        &\exists x, \set{x} \
+        \begin{cases}
+            x \in x \\
+            \forall i \in \set{x} \ i \not\in x
+        \end{cases}
+        \begin{gathered}
+            \iff \\
+            ?
+        \end{gathered} \ \ \
+        \exists x, \set{x} \
+        \begin{cases}
+            x \in x \\
+            x \not\in x
+        \end{cases}
+        \implies
+        \bot \\
+        &\overline{\exists x \ \forall y \in x}
+    \end{flalign*}
+    Можно попробовать решить без аксиомы фундированности.
+
+    \section{Дашков ЕВ | 1.2.13}
+    Объясните, почему степень множества $ A $ единственна.
+
+    \begin{flalign*}
+        &] \ \exists x, y \ \forall z \
+        \begin{cases}
+            z \in x \iff z \subseteq A \\
+            z \in y \iff z \subseteq A \\
+            x \neq y
+        \end{cases}
+        \begin{gathered}
+            \iff \\
+            \overline{def \ =}
+        \end{gathered} \ \ \
+        \exists x, y \
+        \begin{cases}
+            \forall z \ (z \in x \iff z \subseteq A) \\
+            \forall z \ (z \in y \iff z \subseteq A) \\
+            \exists z \ (z \in x \oplus z \in y)
+        \end{cases}
+        \iff \\
+        &\begin{cases}
+            \forall z \ (z \in x \iff z \subseteq A) \\
+            \forall z \ (z \in y \iff z \subseteq A) \\
+            \exists z \ (z \subseteq A \oplus z \subseteq A)
+        \end{cases}
+        \implies
+        \bot \\
+        &\exists! \mathcal{P}(A)
+    \end{flalign*}
+
+    \section{Дашков ЕВ | 1.2.15}
+    Выпишите все элементы множества
+    $ \mathcal{P}\left(\set{\varnothing, \set{\varnothing}}\right) $.
+
+    \begin{flalign*}
+        \mathcal{P}\left(\set{\varnothing, \set{\varnothing}}\right)
+        =
+        \set {
+        \varnothing,
+        \set{\varnothing},
+        \set{\set{\varnothing}},
+        \set{\varnothing, \set{\varnothing}}
+        }
+    \end{flalign*}
+
+    \section{Дашков ЕВ | 1.2.19}
+    Докажите, что $ \cup\varnothing = \varnothing $ и $ \cup\set{A} = A $
+    для всех $ A $.
+
+    \begin{flalign*}
+        &\left(x \in A \iff x \in A\right)
+        \iff
+        \left(
+        \exists z \
+        \begin{cases}
+            z = A \\
+            x \in z
+        \end{cases}
+        \iff x \in A
+        \right)
+        \begin{gathered}
+            \iff \\
+            ?
+        \end{gathered} \\
+        &\begin{cases}
+            \exists y \
+            \begin{cases}
+                y \in \varnothing \\
+                x \in y
+            \end{cases}
+            \iff x \in \varnothing \\
+            \exists z \
+            \begin{cases}
+                z \in \set{A} \\
+                x \in z
+            \end{cases}
+            \iff x \in A
+        \end{cases}
+        \begin{gathered}
+            \iff \\
+            def \ \cup
+        \end{gathered}
+        \begin{cases}
+            x \in \cup\varnothing \iff x \in \varnothing \\
+            x \in \cup\set{A} \iff x \in A
+        \end{cases}
+        \begin{gathered}
+            \iff \\
+            def =
+        \end{gathered} \\
+        &\begin{cases}
+            \cup\varnothing = \varnothing \\
+            \cup\set{A} = A
+        \end{cases}
+    \end{flalign*}
+
+    \section{Дашков ЕВ | 1.2.20}
+    Докажите, что если $ X \subseteq Y $, то $ \cup X \subseteq \cup Y $
+    для любых множеств $ X $ и $ Y $.
+
+    \begin{flalign*}
+        &\left(
+        \forall x \
+        \left(x \in X \implies x \in Y\right)
+        \implies
+        \forall x, y \
+        \left(
+        \begin{cases}
+            y \in X \\
+            x \in y
+        \end{cases}
+        \implies
+        \begin{cases}
+            y \in Y \\
+            x \in y
+        \end{cases}
+        \right)
+        \right)
+        \implies \\
+        &\left(
+        \forall x \
+        \left(x \in X \implies x \in Y\right)
+        \implies
+        \forall x \
+        \left(
+        \exists z \
+        \begin{cases}
+            z \in X \\
+            x \in z
+        \end{cases}
+        \implies
+        \exists w \
+        \begin{cases}
+            w \in Y \\
+            x \in w
+        \end{cases}
+        \right)
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ \cup
+        \end{gathered} \\
+        &\left(
+        \forall x \
+        \left(x \in X \implies x \in Y\right)
+        \implies
+        \forall x \
+        \left(x \in \cup X \implies x \in \cup Y\right)
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ \subseteq
+        \end{gathered} \\
+        &\left(X \subseteq Y \implies \cup X \subseteq \cup Y\right)
+    \end{flalign*}
+\end{document}
