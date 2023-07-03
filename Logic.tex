@@ -186,6 +186,17 @@
         \forall x \
         \left(x \in X \implies x \in Y\right)
         \implies
+        \forall x \
+        \left(x \in X \implies x \in Y\right)
+        \right) \ \ \
+        \begin{gathered}
+            \iff \\
+            x \in y \implies x \in y
+        \end{gathered} \\
+        &\left(
+        \forall x \
+        \left(x \in X \implies x \in Y\right)
+        \implies
         \forall x, y \
         \left(
         \begin{cases}
@@ -236,4 +247,173 @@
         \end{gathered} \\
         &\left(X \subseteq Y \implies \cup X \subseteq \cup Y\right)
     \end{flalign*}
+
+    \section{Дашков ЕВ | 1.2.22}
+    Вычислите $ \cup\set{\mathbb{N}, \mathbb{Z}, \mathbb{Q}, \mathbb{R}} $,
+    $ \cup\set{\varnothing, \set{\varnothing}, \set{\set{\varnothing}}} $,
+    а также $ \cup\cup\set{\set{\varnothing}, \set{\varnothing, \set{\varnothing}}} $.
+
+    \begin{flalign*}
+        &\cup\set{\mathbb{N}, \mathbb{Z}, \mathbb{Q}, \mathbb{R}} = \mathbb{R} \\
+        &\cup\set{\varnothing, \set{\varnothing}, \set{\set{\varnothing}}}
+        =
+        \set{\varnothing, \set{\varnothing}} \\
+        &\cup\cup\set{\set{\varnothing}, \set{\varnothing, \set{\varnothing}}}
+        =
+        \cup\set{\varnothing, \set{\varnothing}}
+        =
+        \set{\varnothing}
+    \end{flalign*}
+
+    \section{Дашков ЕВ | 1.2.23}
+    Приведите к противоречию предположение о существовании множества всех
+    одноэлементных (ТЕ вида $ \set{x} $) множеств.
+
+    \begin{flalign*}
+        &] \ \exists x \ \forall y \
+        \left(
+        \begin{cases}
+            \left(
+            \forall z, w \
+            \begin{cases}
+                z \in y \\
+                w \in y
+            \end{cases}
+            \implies
+            z = w
+            \right)\\
+            y \neq \varnothing
+        \end{cases}
+        \implies
+        y \in x
+        \right)
+        \begin{gathered}
+            \implies \\
+            \exists \set{x}
+        \end{gathered} \\
+        &\exists x, \set{x} \
+        \forall y \
+        \left(
+        \begin{cases}
+            \left(
+            \forall z, w \
+            \begin{cases}
+                z \in y \\
+                w \in y
+            \end{cases}
+            \implies
+            z = w
+            \right)\\
+            y \neq \varnothing
+        \end{cases}
+        \implies
+        y \in x
+        \right)
+        \begin{gathered}
+            \implies \\
+            \exists \set{x, y}
+        \end{gathered} \\
+        &\exists x, \set{x}, \set{x, \set{x}} \
+        \forall y \
+        \left(
+        \begin{cases}
+            \left(
+            \forall z, w \
+            \begin{cases}
+                z \in y \\
+                w \in y
+            \end{cases}
+            \implies
+            z = w
+            \right)\\
+            y \neq \varnothing
+        \end{cases}
+        \implies
+        y \in x
+        \right)
+        \implies \\
+        &\exists x, \set{x}, \set{x, \set{x}} \ \set{x} \in x \ \ \
+        \begin{gathered}
+            \implies \\
+            \exists y \in x \ \forall z \in x \ z \not\in y
+        \end{gathered} \\
+        &\exists x, \set{x}, \set{x, \set{x}}, i \
+        \begin{cases}
+            \set{x} \in x \\
+            i \in \set{x, \set{x}} \ \forall z \in \set{x, \set{x}} \
+            z \not\in i \\
+        \end{cases}
+        \implies \\
+        &\exists x, \set{x}, \set{x, \set{x}}, i \
+        \begin{cases}
+            \set{x} \in x \\
+            \left[
+            \begin{aligned}
+                &i = x \implies \forall z \in \set{x, \set{x}} \ z \not\in i \\
+                &i = \set{x} \implies \forall z \in \set{x, \set{x}} \ z \not\in i \\
+            \end{aligned}
+            \right.
+        \end{cases}
+        \implies \\
+        &\exists x, \set{x}, i \
+        \begin{cases}
+            \set{x} \in x \\
+            \left[
+            \begin{aligned}
+                &i = x
+                \implies
+                \begin{cases}
+                    \exists z = x \ z \not\in i \\
+                    \exists z = \set{x} \ z \not\in i
+                \end{cases} \\
+                &i = \set{x}
+                \implies
+                \begin{cases}
+                    \exists z = x \ z \not\in i \\
+                    \exists z = \set{x} \ z \not\in i
+                \end{cases}
+            \end{aligned}
+            \right.
+        \end{cases}
+        \begin{gathered}
+            \implies \\
+            def \ \set{x}
+        \end{gathered} \\
+        &\exists x, \set{x}, i \
+        \begin{cases}
+            \set{x} \in x \\
+            \left[
+            \begin{aligned}
+                &i = x
+                \implies
+                \begin{cases}
+                    \exists z = x \ z \not\in i \\
+                    \exists z = \set{x} \ z \not\in i
+                \end{cases} \\
+                &i = \set{x}
+                \implies
+                \begin{cases}
+                    \exists z = x \ z \not\in i \\
+                    \exists z = \set{x} \ z \not\in i
+                \end{cases}
+            \end{aligned}
+            \right. \\
+            x \in \set{x}
+        \end{cases}
+        \implies
+        \bot
+    \end{flalign*}
+
+    \section{Дашков ЕВ | 1.2.24}
+    Приведите пример множеств $ X \neq Y $, ТЧ $ \cup X = \cup Y $.
+
+    \begin{flalign*}
+        &X = \set{\varnothing, \set{\varnothing}} \\
+        &Y = \set{\set{\varnothing}}
+    \end{flalign*}
+
+    \section{Дашков ЕВ | 1.2.26}
+    Докажите, что $ X \subseteq \mathcal{P}\left(\cup X\right) $ для всех $ X $.
+    Приведите примеры множества $ X $, ТЧ $ \mathcal{P}\left(\cup X\right)
+    \not\subseteq X $ и ТЧ $ \mathcal{P}\left(\cup X\right) = X $.
 \end{document}
