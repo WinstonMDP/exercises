@@ -31,7 +31,7 @@
 
 \title{Логика: \\ упражнения}
 \date{\today}
-\author{Мы}
+\author{WinstonMDP}
 
 \begin{document}
     \maketitle
@@ -528,95 +528,116 @@
     тогда, когда $ X \subseteq \mathcal{P}\left(X\right) $.
 
     \begin{flalign*}
-        &\cup \varnothing = \varnothing \\
-        &\cup \set{\varnothing} = \varnothing \\
-        &\cup \set{\set{\varnothing}} = \set{\varnothing} \\
-        &\cup \set{\varnothing, \set{\varnothing}, \set{\set{\varnothing}}}
+        &\cup\varnothing = \varnothing \\
+        &\cup\set{\varnothing} = \varnothing \\
+        &\cup\set{\set{\varnothing}} = \set{\varnothing} \\
+        &\cup\set{\varnothing, \set{\varnothing}, \set{\set{\varnothing}}}
         =
         \set{\varnothing, \set{\varnothing}} \\
         &\left(
-        \left(
-        \forall x \ \exists z
+        \forall x, w
         \begin{cases}
-            z \in X \\
-            x \in z
-        \end{cases} \
-        x \in X
-        \right) \
-        \begin{cases}
-            \forall x \
+            \left(
+            \forall y
             \left(
             \exists z
             \begin{cases}
-                \exists w \
-                \begin{cases}
-                    w \in X \\
-                    z \in w
-                \end{cases} \\
-                x \in z
+                z \in X \\
+                y \in z
             \end{cases}
             \right) \
+            y \in X
+            \right) \\
+            \exists z
+            \begin{cases}
+                \forall i \in z \ i \in X \\
+                x \in z
+            \end{cases} \\
+            w \in x \\
             \left(
-            \exists z \
+            \exists z
             \begin{cases}
                 z \in X \\
-                x \in z
-            \end{cases}
-            \right) \\
-            \forall x \
-            \left(
-            \exists z \
-            \begin{cases}
-                \forall w \in z \ w \in X \\
-                x \in z
+                w \in z
             \end{cases}
             \right) \
-            \forall w \in x \ w \in X
+            w \in X \\
+            x \in X
+        \end{cases} \
+        w \in X
+        \right)
+        \iff \\
+        &\left(
+        \forall x, w
+        \begin{cases}
+            \left(
+            \forall y
+            \left(
+            \exists z
+            \begin{cases}
+                z \in X \\
+                y \in z
+            \end{cases}
+            \right) \
+            y \in X
+            \right) \\
+            \exists z
+            \begin{cases}
+                \forall i \in z \ i \in X \\
+                x \in z
+            \end{cases} \\
+            w \in x
+        \end{cases} \
+        w \in X
+        \right)
+        \iff \\
+        &\left(
+        \left(
+        \forall x
+        \left(
+        \exists z
+        \begin{cases}
+            z \in X \\
+            x \in z
         \end{cases}
+        \right) \
+        x \in X
+        \right) \
+        \forall x
+        \left(
+        \exists z
+        \begin{cases}
+            \forall w \in z \ w \in X \\
+            x \in z
+        \end{cases}
+        \right) \
+        \forall w \in x \ w \in X
         \right) \\
         &\begin{gathered}
             \iff \\
-            \subseteq
+            def \ \subseteq
         \end{gathered} \\
         &\left(
         \left(
-        \forall x \ \exists z
+        \forall x
+        \left(
+        \exists z
         \begin{cases}
             z \in X \\
             x \in z
-        \end{cases} \
+        \end{cases}
+        \right) \
         x \in X
         \right) \
+       \forall x \
+        \left(
+        \exists z \
         \begin{cases}
-            \forall x \
-            \left(
-            \exists z
-            \begin{cases}
-                \exists w \
-                \begin{cases}
-                    w \in X \\
-                    z \in w
-                \end{cases} \\
-                x \in z
-            \end{cases}
-            \right) \
-            \left(
-            \exists z \
-            \begin{cases}
-                z \in X \\
-                x \in z
-            \end{cases}
-            \right) \\
-            \forall x \
-            \left(
-            \exists z \
-            \begin{cases}
-                z \subseteq X \\
-                x \in z
-            \end{cases}
-            \right) \
-            x \subseteq X
+            z \subseteq X \\
+            x \in z
         \end{cases}
+        \right) \
+        x \subseteq X
         \right) \\
         &\begin{gathered}
             \iff \\
@@ -624,83 +645,25 @@
         \end{gathered} \\
         &\left(
         \left(
-        \forall x \ \exists z
-        \begin{cases}
-            z \in X \\
-            x \in z
-        \end{cases} \
-        x \in X
-        \right) \
-        \begin{cases}
-            \forall x \
-            \left(
-            \exists z
-            \begin{cases}
-                \exists w \
-                \begin{cases}
-                    w \in X \\
-                    z \in w
-                \end{cases} \\
-                x \in z
-            \end{cases}
-            \right) \
-            \left(
-            \exists z \
-            \begin{cases}
-                z \in X \\
-                x \in z
-            \end{cases}
-            \right) \\
-            \forall x \
-            \left(
-            \exists z \
-            \begin{cases}
-                z \in \mathcal{P}\left(X\right) \\
-                x \in z
-            \end{cases}
-            \right) \
-            x \in \mathcal{P}\left(X\right)
-        \end{cases}
-        \right) \\
-        &\begin{gathered}
-            \iff \\
-            def \ \cup
-        \end{gathered} \\
-        &\left(
+        \forall x
         \left(
-        \forall x \ \exists z
+        \exists z
         \begin{cases}
             z \in X \\
             x \in z
-        \end{cases} \
+        \end{cases}
+        \right) \
         x \in X
         \right) \
+        \forall x \
+        \left(
+        \exists z \
         \begin{cases}
-            \forall x \
-            \left(
-            \exists z
-            \begin{cases}
-                z \in \cup X \\
-                x \in z
-            \end{cases}
-            \right) \
-            \left(
-            \exists z \
-            \begin{cases}
-                z \in X \\
-                x \in z
-            \end{cases}
-            \right) \\
-            \forall x \
-            \left(
-            \exists z \
-            \begin{cases}
-                z \in \mathcal{P}\left(X\right) \\
-                x \in z
-            \end{cases}
-            \right) \
-            x \in \mathcal{P}\left(X\right)
+            z \in \mathcal{P}\left(X\right) \\
+            x \in z
         \end{cases}
+        \right) \
+        x \in \mathcal{P}\left(X\right)
         \right)
         \begin{gathered}
             \iff \\
@@ -708,14 +671,19 @@
         \end{gathered} \\
         &\left(
         \left(\forall x \in \cup X \ x \in X\right) \
-        \begin{cases}
-            \forall x \in \cup\cup X \ x \in \cup X \\
-            \forall x \in \cup\mathcal{P}\left(X\right) \ x \in \mathcal{P}\left(X\right)
-        \end{cases}
+        \forall x \in \cup\mathcal{P}\left(X\right) \ x \in \mathcal{P}\left(X\right)
         \right)
         \begin{gathered}
             \iff \\
             def \ \subseteq
+        \end{gathered} \\
+        &\left(
+        \cup X \subseteq X \
+        \cup\mathcal{P}\left(X\right) \subseteq \mathcal{P}\left(X\right)
+        \right) \ \ \
+        \begin{gathered}
+            \iff \\
+            x \subseteq y \ \cup x \subseteq \cup y
         \end{gathered} \\
         &\left(
         \cup X \subseteq X \
