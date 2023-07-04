@@ -416,4 +416,313 @@
     Докажите, что $ X \subseteq \mathcal{P}\left(\cup X\right) $ для всех $ X $.
     Приведите примеры множества $ X $, ТЧ $ \mathcal{P}\left(\cup X\right)
     \not\subseteq X $ и ТЧ $ \mathcal{P}\left(\cup X\right) = X $.
+
+    \begin{flalign*}
+        &\left(
+        \forall x \
+        \begin{cases}
+            x \in X \\
+            y \in x
+        \end{cases}
+        \implies
+        \forall x \
+        \begin{cases}
+            x \in X \\
+            y \in x
+        \end{cases}
+        \right)
+        \implies \\
+        &\left(
+        x \in X
+        \implies
+        \forall y \
+        \left(
+        y \in x
+        \implies
+        \exists z \
+        \begin{cases}
+            z \in X \\
+            y \in z
+        \end{cases}
+        \right)
+        \right) \ \ \
+        \begin{gathered}
+            \iff \\
+            def \ \cup
+        \end{gathered} \\
+        &\left(
+        x \in X \implies \forall y \ \left(y \in x \implies y \in \cup X\right)
+        \right) \ \ \
+        \begin{gathered}
+            \iff \\
+            def \ \subseteq
+        \end{gathered} \\
+        &\left(x \in X \implies x \subseteq \cup X\right) \ \ \
+        \begin{gathered}
+            \iff \\
+            def \ \mathcal{P}\left(x\right)
+        \end{gathered} \ \ \
+        \left(x \in X \implies x \in \mathcal{P}\left(\cup X\right)\right) \ \ \
+        \begin{gathered}
+            \iff \\
+            def \ \subseteq
+        \end{gathered} \\
+        &X \subseteq \mathcal{P}\left(\cup X\right)
+    \end{flalign*}
+    Доказательство с новой нотацией.
+    \begin{flalign*}
+        &\left(
+        \left(
+        \forall x \
+        \begin{cases}
+            x \in X \\
+            y \in x
+        \end{cases}
+        \right) \
+        \forall x \
+        \begin{cases}
+            x \in X \\
+            y \in x
+        \end{cases}
+        \right) \
+        \left(
+        x \in X \
+        y \in x \
+        \exists z \
+        \begin{cases}
+            z \in X \\
+            y \in z
+        \end{cases}
+        \right) \ \ \
+        \begin{gathered}
+            \iff \\
+            def \ \cup
+        \end{gathered} \\
+        &\left(x \in X \ y \in x \ y \in \cup X\right) \ \ \
+        \begin{gathered}
+            \iff \\
+            def \ \subseteq
+        \end{gathered} \ \ \
+        \left(x \in X \ x \subseteq \cup X\right) \ \ \
+        \begin{gathered}
+            \iff \\
+            def \ \mathcal{P}\left(x\right)
+        \end{gathered} \\
+        &\left(x \in X \ x \in \mathcal{P}\left(\cup X\right)\right) \ \ \
+        \begin{gathered}
+            \iff \\
+            def \ \subseteq
+        \end{gathered} \ \ \
+        X \subseteq \mathcal{P}\left(\cup X\right)
+    \end{flalign*}
+    Пробел правоассоциативен.
+    \begin{flalign*}
+        &X = \varnothing \ \mathcal{P}\left(\cup X\right) \not\subseteq X \\
+        &X = \set{\varnothing} \ \mathcal{P}\left(\cup X\right) = X
+    \end{flalign*}
+
+    \section{Дашков ЕВ | 1.2.27}
+    Приведите пример транзитивного множества с нетранзитивным элементом.
+    Докажите, что если $ X $ транзитивно, то таковы же $ \cup X $ и
+    $ \mathcal{P}\left(X\right) $. Докажите, что $ X $ транзитивно тогда и только
+    тогда, когда $ X \subseteq \mathcal{P}\left(X\right) $.
+
+    \begin{flalign*}
+        &\cup \varnothing = \varnothing \\
+        &\cup \set{\varnothing} = \varnothing \\
+        &\cup \set{\set{\varnothing}} = \set{\varnothing} \\
+        &\cup \set{\varnothing, \set{\varnothing}, \set{\set{\varnothing}}}
+        =
+        \set{\varnothing, \set{\varnothing}} \\
+        &\left(
+        \left(
+        \forall x \ \exists z
+        \begin{cases}
+            z \in X \\
+            x \in z
+        \end{cases} \
+        x \in X
+        \right) \
+        \begin{cases}
+            \forall x \
+            \left(
+            \exists z
+            \begin{cases}
+                \exists w \
+                \begin{cases}
+                    w \in X \\
+                    z \in w
+                \end{cases} \\
+                x \in z
+            \end{cases}
+            \right) \
+            \left(
+            \exists z \
+            \begin{cases}
+                z \in X \\
+                x \in z
+            \end{cases}
+            \right) \\
+            \forall x \
+            \left(
+            \exists z \
+            \begin{cases}
+                \forall w \in z \ w \in X \\
+                x \in z
+            \end{cases}
+            \right) \
+            \forall w \in x \ w \in X
+        \end{cases}
+        \right) \\
+        &\begin{gathered}
+            \iff \\
+            \subseteq
+        \end{gathered} \\
+        &\left(
+        \left(
+        \forall x \ \exists z
+        \begin{cases}
+            z \in X \\
+            x \in z
+        \end{cases} \
+        x \in X
+        \right) \
+        \begin{cases}
+            \forall x \
+            \left(
+            \exists z
+            \begin{cases}
+                \exists w \
+                \begin{cases}
+                    w \in X \\
+                    z \in w
+                \end{cases} \\
+                x \in z
+            \end{cases}
+            \right) \
+            \left(
+            \exists z \
+            \begin{cases}
+                z \in X \\
+                x \in z
+            \end{cases}
+            \right) \\
+            \forall x \
+            \left(
+            \exists z \
+            \begin{cases}
+                z \subseteq X \\
+                x \in z
+            \end{cases}
+            \right) \
+            x \subseteq X
+        \end{cases}
+        \right) \\
+        &\begin{gathered}
+            \iff \\
+            def \ \mathcal{P}(x)
+        \end{gathered} \\
+        &\left(
+        \left(
+        \forall x \ \exists z
+        \begin{cases}
+            z \in X \\
+            x \in z
+        \end{cases} \
+        x \in X
+        \right) \
+        \begin{cases}
+            \forall x \
+            \left(
+            \exists z
+            \begin{cases}
+                \exists w \
+                \begin{cases}
+                    w \in X \\
+                    z \in w
+                \end{cases} \\
+                x \in z
+            \end{cases}
+            \right) \
+            \left(
+            \exists z \
+            \begin{cases}
+                z \in X \\
+                x \in z
+            \end{cases}
+            \right) \\
+            \forall x \
+            \left(
+            \exists z \
+            \begin{cases}
+                z \in \mathcal{P}\left(X\right) \\
+                x \in z
+            \end{cases}
+            \right) \
+            x \in \mathcal{P}\left(X\right)
+        \end{cases}
+        \right) \\
+        &\begin{gathered}
+            \iff \\
+            def \ \cup
+        \end{gathered} \\
+        &\left(
+        \left(
+        \forall x \ \exists z
+        \begin{cases}
+            z \in X \\
+            x \in z
+        \end{cases} \
+        x \in X
+        \right) \
+        \begin{cases}
+            \forall x \
+            \left(
+            \exists z
+            \begin{cases}
+                z \in \cup X \\
+                x \in z
+            \end{cases}
+            \right) \
+            \left(
+            \exists z \
+            \begin{cases}
+                z \in X \\
+                x \in z
+            \end{cases}
+            \right) \\
+            \forall x \
+            \left(
+            \exists z \
+            \begin{cases}
+                z \in \mathcal{P}\left(X\right) \\
+                x \in z
+            \end{cases}
+            \right) \
+            x \in \mathcal{P}\left(X\right)
+        \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ \cup
+        \end{gathered} \\
+        &\left(
+        \left(\forall x \in \cup X \ x \in X\right) \
+        \begin{cases}
+            \forall x \in \cup\cup X \ x \in \cup X \\
+            \forall x \in \cup\mathcal{P}\left(X\right) \ x \in \mathcal{P}\left(X\right)
+        \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ \subseteq
+        \end{gathered} \\
+        &\left(
+        \cup X \subseteq X \
+        \begin{cases}
+            \cup\cup X \subseteq \cup X \\
+            \cup\mathcal{P}\left(X\right) \subseteq \mathcal{P}\left(X\right)
+        \end{cases}
+        \right)
+    \end{flalign*}
 \end{document}
