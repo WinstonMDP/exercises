@@ -29,7 +29,7 @@
 \newcommand{\meta}[1]{\text{<}#1\text{>}}
 \newcommand{\set}[1]{\left\{#1\right\}}
 
-\title{Логика: \\ упражнения}
+\title{Теория множеств: \\ упражнения}
 \date{\today}
 \author{WinstonMDP}
 
@@ -534,10 +534,40 @@
         &\cup\set{\varnothing, \set{\varnothing}, \set{\set{\varnothing}}}
         =
         \set{\varnothing, \set{\varnothing}} \\
-        &\left(
-        \forall x, w
+        &\top \
+        \left(
+        w \in X \
+        w \in X
+        \right) \
+        \left(
         \begin{cases}
+            w \in x \\
+            \begin{cases}
+                x \in X \\
+                w \in x
+            \end{cases}
+            w \in X \\
+            x \in X
+        \end{cases} \
+        w \in X
+        \right) \\
+        &\left(
+        \begin{cases}
+            w \in x \\
             \left(
+            \exists z
+            \begin{cases}
+                z \in X \\
+                w \in z
+            \end{cases}
+            \right) \
+            w \in X \\
+            x \in X
+        \end{cases} \
+        w \in X
+        \right) \\
+        &\left(
+        \begin{cases}
             \forall y
             \left(
             \exists z
@@ -546,8 +576,7 @@
                 y \in z
             \end{cases}
             \right) \
-            y \in X
-            \right) \\
+            y \in X \\
             \exists z
             \begin{cases}
                 \forall i \in z \ i \in X \\
@@ -568,9 +597,7 @@
         \right)
         \iff \\
         &\left(
-        \forall x, w
         \begin{cases}
-            \left(
             \forall y
             \left(
             \exists z
@@ -579,8 +606,7 @@
                 y \in z
             \end{cases}
             \right) \
-            y \in X
-            \right) \\
+            y \in X \\
             \exists z
             \begin{cases}
                 \forall i \in z \ i \in X \\
@@ -612,8 +638,8 @@
         \end{cases}
         \right) \
         \forall w \in x \ w \in X
-        \right) \\
-        &\begin{gathered}
+        \right)
+        \begin{gathered}
             \iff \\
             def \ \subseteq
         \end{gathered} \\
@@ -638,8 +664,8 @@
         \end{cases}
         \right) \
         x \subseteq X
-        \right) \\
-        &\begin{gathered}
+        \right)
+        \begin{gathered}
             \iff \\
             def \ \mathcal{P}(x)
         \end{gathered} \\
@@ -692,5 +718,643 @@
             \cup\mathcal{P}\left(X\right) \subseteq \mathcal{P}\left(X\right)
         \end{cases}
         \right)
+    \end{flalign*}
+    \begin{flalign*}
+        &\top \
+        \left(
+        \left(
+        \forall x, y
+        \begin{cases}
+            y \in X \\
+            x \in y
+        \end{cases} \
+        x \in X
+        \right)
+        \iff
+        \forall x, y
+        \begin{cases}
+            x \in X \\
+            y \in x
+        \end{cases} \
+        y \in X
+        \right) \\
+        &\left(
+        \left(
+        \forall x
+        \left(
+        \exists y
+        \begin{cases}
+            y \in X \\
+            x \in y
+        \end{cases}
+        \right) \
+        x \in X
+        \right)
+        \iff
+        \left(\forall x \in X \ \left(\forall y \in x \ y \in X\right)\right)
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ x \subseteq y
+        \end{gathered} \\
+        &\left(
+        \left(
+        \forall x
+        \left(
+        \exists y
+        \begin{cases}
+            y \in X \\
+            x \in y
+        \end{cases}
+        \right) \
+        x \in X
+        \right)
+        \iff
+        \left(\forall x \in X \ x \subseteq X\right)
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ \cup x
+        \end{gathered} \\
+        &\left(
+        \left(\forall x \in \cup X \ x \in X\right)
+        \iff
+        \left(\forall x \in X \ x \subseteq X\right)
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ \mathcal{P}\left(x\right)
+        \end{gathered} \\
+        &\left(
+        \left(\forall x \in \cup X \ x \in X\right)
+        \iff
+        \left(\forall x \in X \ x \in \mathcal{P}\left(X\right)\right)
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ \subseteq
+        \end{gathered}
+        \left(\cup X \subseteq X \iff X \subseteq \mathcal{P}\left(X\right)\right)
+    \end{flalign*}
+
+    \section{Дашков ЕВ | 1.2.28}
+    Докажите, что для любых $ X $ и $ Y $ верно
+    \begin{flalign*}
+        \cup X \subseteq Y \iff X \subseteq \mathcal{P}\left(Y\right)
+    \end{flalign*}
+
+    \begin{flalign*}
+        &\top \
+        \left(
+        \left(
+        \forall x, y
+        \begin{cases}
+            y \in X \\
+            x \in y
+        \end{cases} \
+        x \in Y
+        \right)
+        \iff
+        \forall x, y
+        \begin{cases}
+            x \in X \\
+            y \in x
+        \end{cases} \
+        y \in Y
+        \right) \\
+        &\left(
+        \left(
+        \forall x
+        \left(
+        \exists y
+        \begin{cases}
+            y \in X \\
+            x \in y
+        \end{cases} \right) \
+        x \in Y
+        \right)
+        \iff
+        \left(\forall x \in X \ \left(\forall y \in x \ y \in Y\right)\right)
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ x \subseteq y
+        \end{gathered} \\
+        &\left(
+        \left(
+        \forall x
+        \left(
+        \exists y
+        \begin{cases}
+            y \in X \\
+            x \in y
+        \end{cases}
+        \right) \
+        x \in Y
+        \right)
+        \iff
+        \left(\forall x \in X \ x \subseteq Y\right)
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ \cup x
+        \end{gathered} \\
+        &\left(
+        \left(\forall x \in \cup X \ x \in Y\right)
+        \iff
+        \left(\forall x \in X \ x \subseteq Y\right)
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ \mathcal{P}\left(x\right)
+        \end{gathered} \\
+        &\left(
+        \left(\forall x \in \cup X \ x \in Y\right)
+        \iff
+        \left(\forall x \in X \ x \in \mathcal{P}\left(Y\right)\right)
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ \subseteq
+        \end{gathered}
+        \left(\cup X \subseteq Y \iff X \subseteq \mathcal{P}\left(Y\right)\right)
+    \end{flalign*}
+
+    \section{Дашков ЕВ | 1.2.30}
+    Докажите, что $ \varnothing \subseteq A $ для любого множества $ A $.
+
+    \begin{flalign*}
+        \top
+        \iff
+        \left(\bot \ x \in A\right)
+        \begin{gathered}
+            \iff \\
+            x \not\in \varnothing
+        \end{gathered}
+        \left(x \in \varnothing \ x \in A\right)
+        \begin{gathered}
+            \iff \\
+            def \ x \subseteq y
+        \end{gathered}
+        \varnothing \subseteq A
+    \end{flalign*}
+
+    \section{Дашков ЕВ | 1.2.31}
+    Вычислите $ \cap\varnothing $ и $ \cap\set{\varnothing} $.
+
+    \begin{flalign*}
+        &\cap\varnothing = \varnothing \\
+        &\cap\set{\varnothing} = \varnothing
+    \end{flalign*}
+
+    \section{Лавров ИА, Максимова ЛЛ | 1.1}
+    Доказать:
+    \subsection*{a}
+    \begin{flalign*}
+        A \subseteq A
+    \end{flalign*}
+
+    \begin{flalign*}
+        \top
+        \iff
+        \left(x \in A \ x \in A\right)
+        \begin{gathered}
+            \iff \\
+            \subseteq
+        \end{gathered}
+        A \subseteq A
+    \end{flalign*}
+
+    \subsection*{б}
+    \begin{flalign*}
+        \begin{cases}
+            A \subseteq B \\
+            B \subseteq C
+        \end{cases} \
+        A \subseteq C
+    \end{flalign*}
+
+    \begin{flalign*}
+        &\top
+        \left(y \in C \ y \in C\right)
+        \left(
+        \begin{cases}
+            \forall x \in B \ x \in C \\
+            y \in B
+        \end{cases}
+        y \in C
+        \right)
+        \left(
+        \begin{cases}
+            \forall x \in A \ x \in B \\
+            \forall x \in B \ x \in C \\
+            y \in A
+        \end{cases}
+        y \in C
+        \right)
+        \iff \\
+        &\left(
+        \begin{cases}
+            \forall x \in A \ x \in B \\
+            \forall x \in B \ x \in C
+        \end{cases}
+        \forall x \in A \ x \in C
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ \subseteq
+        \end{gathered}
+        \left(
+        \begin{cases}
+            A \subseteq B \\
+            B \subseteq C
+        \end{cases}
+        A \subseteq C
+        \right)
+    \end{flalign*}
+
+    \subsection*{в}
+    \begin{flalign*}
+        A \cap B \subseteq A \subseteq A \cup B
+    \end{flalign*}
+
+    \begin{flalign*}
+        &\top
+        \begin{cases}
+            \top \\
+            x \in A \
+            \left[
+            \begin{aligned}
+                &x \in A \\
+                &x \in B
+            \end{aligned}
+            \right.
+        \end{cases}
+        \iff
+        \begin{cases}
+            \forall x
+            \begin{cases}
+                x \in A \\
+                x \in B
+            \end{cases}
+            x \in A \\
+            \forall x \in A \
+            \exists y
+            \begin{cases}
+                y \in \set{A, B} \\
+                x \in y
+            \end{cases}
+        \end{cases} \\
+        &\begin{gathered}
+            \iff \\
+            def \ x \cap y
+        \end{gathered}
+        \begin{cases}
+            \forall x \in A \cap B \ x \in A \\
+            \forall x \in A \
+            \exists y
+            \begin{cases}
+                y \in \set{A, B} \\
+                x \in y
+            \end{cases}
+        \end{cases}
+        \begin{gathered}
+            \iff \\
+            def \ \cup x
+        \end{gathered}
+        \begin{cases}
+            \forall x \in A \cap B \ x \in A \\
+            \forall x \in A \ x \in \cup\set{A, B}
+        \end{cases}
+        \begin{gathered}
+            \iff \\
+            x \cup y
+        \end{gathered} \\
+        &\begin{cases}
+            \forall x \in A \cap B \ x \in A \\
+            \forall x \in A \ x \in A \cup B
+        \end{cases}
+        \begin{gathered}
+            \iff \\
+            def \ x \subseteq y
+        \end{gathered}
+        \begin{cases}
+            A \cap B \subseteq A \\
+            A \subseteq A \cup B
+        \end{cases}
+        \begin{gathered}
+            \iff \\
+            \text{транзитивность} \ \subseteq
+        \end{gathered} \\
+        &A \cap B \subseteq A \subseteq A \cup B
+    \end{flalign*}
+
+    \subsection*{д}
+    \begin{flalign*}
+        A \setminus B \subseteq A
+    \end{flalign*}
+
+    \begin{flalign*}
+        \top
+        \iff
+        \begin{cases}
+            x \in A \\
+            x \not\in B
+        \end{cases}
+        x \in A
+        \iff
+        A \setminus B \subseteq A
+    \end{flalign*}
+
+    \section{Лавров ИА, Максимова ЛЛ | 1.5}
+    Доказать, что для любого $ A $:
+    \subsection*{по мотивам a}
+    \begin{flalign*}
+        \top
+        \begin{gathered}
+            \iff \\
+            x \not\in \varnothing
+        \end{gathered}
+        \left(x \in \varnothing \ x \in A\right)
+        \iff
+        \varnothing \subseteq A
+    \end{flalign*}
+
+    \subsection*{по мотивам б}
+    \begin{flalign*}
+        A \subseteq \varnothing \ A = \varnothing
+    \end{flalign*}
+
+    \begin{flalign*}
+        &\top
+        \left(
+        \left(\forall x \in A \iff x \in \varnothing\right) \
+        \forall x \in A \iff x \in \varnothing
+        \right) \\
+        &\left(
+        \left(\forall x \in A \ x \in \varnothing\right) \
+        \forall x \in A \iff x \in \varnothing
+        \right)
+        \iff
+        \left(
+        \left(\forall x \in A \ x \in \varnothing\right) \ A = \varnothing
+        \right) \ \ \
+        \begin{gathered}
+            \iff \\
+            def \ \varnothing
+        \end{gathered} \\
+        &\left(
+        \left(\forall x \in A \ x \in \varnothing\right) \ A = \varnothing
+        \right) \ \ \
+        \begin{gathered}
+            \iff \\
+            def \ x \subseteq y
+        \end{gathered} \ \ \
+        A \subseteq \varnothing \ A = \varnothing
+    \end{flalign*}
+
+    \section{Лавров ИА, Максимова ЛЛ | 1.6}
+    Доказать, что существует лишь одно множество, не имеющее элементов.
+
+    \begin{flalign*}
+        &A \implies (B \iff C)
+        =
+        \overline{A} \vee (B \iff C)
+        =
+        \overline{A} \vee (B \implies C \wedge C \implies B) \\
+        &\top
+        \left(
+        \begin{cases}
+            \forall x
+            \left(
+            \forall w
+            \begin{cases}
+                w \not\in y \\
+                w \not\in z
+            \end{cases}
+            \right)
+            \bot \
+            x \in z \\
+            \forall x
+            \left(
+            \forall w
+            \begin{cases}
+                w \not\in y \\
+                w \not\in z
+            \end{cases}
+            \right)
+            \bot \
+            x \in y
+        \end{cases}
+        \right)
+        \iff
+        \left(
+        \begin{cases}
+            \forall x
+            \left(
+            \forall w
+            \begin{cases}
+                w \not\in y \\
+                w \not\in z
+            \end{cases}
+            \right)
+            x \in y \
+            x \in z \\
+            \forall x
+            \left(
+            \forall w
+            \begin{cases}
+                w \not\in y \\
+                w \not\in z
+            \end{cases}
+            \right)
+            x \in z \
+            x \in y
+        \end{cases}
+        \right) \\
+        &\iff
+        \left(
+        \left(
+        \forall x
+        \begin{cases}
+            x \not\in y \\
+            x \not\in z
+        \end{cases}
+        \right)
+        \forall x \in y \iff x \in z
+        \right)
+        \begin{gathered}
+            \iff \\
+            x = y
+        \end{gathered}
+        \left(
+        \left(
+        \forall x
+        \begin{cases}
+            x \not\in y \\
+            x \not\in z
+        \end{cases}
+        \right)
+        y = z
+        \right)
+    \end{flalign*}
+
+    \section{Лавров ИА, Максимова ЛЛ | 1.10}
+    Доказать, что
+    \begin{flalign*}
+        A \subseteq B \iff A \cup B = B
+    \end{flalign*}
+
+    \begin{flalign*}
+        &\top
+        \left(
+        \forall x
+        \left(\forall y \in A \ y \in B\right)
+        \left(
+        \left[
+        \begin{aligned}
+            x \in B \\
+            x \in B
+        \end{aligned}
+        \right.
+        \ x \in B\right)
+        \right)
+        \iff \\
+        &\begin{cases}
+            \forall x
+            \left(\forall y \in A \ y \in B\right)
+            \left(
+            \left[
+            \begin{aligned}
+                x \in A \\
+                x \in B
+            \end{aligned}
+            \right.
+            \ x \in B\right) \\
+            \forall x \left(\forall y \in A \ y \in B\right) \top \\
+            \forall x \left(\forall y \in A \cup B \iff y \in B\right) \top
+        \end{cases}
+        \begin{gathered}
+            \iff \\
+            x \in A \ x \in A \cup B
+        \end{gathered} \\
+        &\begin{cases}
+            \forall x
+            \left(\forall y \in A \ y \in B\right)
+            \left(
+            \left[
+            \begin{aligned}
+                x \in A \\
+                x \in B
+            \end{aligned}
+            \right.
+            \ x \in B\right) \\
+            \forall x
+            \left(\forall y \in A \ y \in B\right)
+            \left(x \in A \ x \in A \cup B\right) \\
+            \forall x
+            \left(\forall y \in A \cup B \iff y \in B\right)
+            \left(x \in A \ x \in A \cup B\right)
+        \end{cases}
+        \iff
+    \end{flalign*}
+    \begin{flalign*}
+        &\begin{cases}
+            \forall x
+            \left(\forall y \in A \ y \in B\right)
+            \left(x \in A \cup B \ x \in B\right) \\
+            \forall x
+            \left(\forall y \in A \ y \in B\right)
+            \left(x \in B \ x \in A \cup B\right) \\
+            \forall x
+            \left(\forall y \in A \cup B \iff y \in B\right)
+            \left(x \in A \ x \in B\right)
+        \end{cases}
+        \iff \\
+        &\begin{cases}
+            \left(\forall x \in A \ x \in B\right)
+            \left(\forall x \in A \cup B \iff x \in B\right) \\
+            \left(\forall x \in A \cup B \iff x \in B\right)
+            \left(\forall x \in A \ x \in B\right)
+        \end{cases}
+        \iff \\
+        &\left(
+        \left(\forall x \in A \ x \in B\right)
+        \iff
+        \left(\forall x \in A \cup B \iff x \in B\right)
+        \right) \\
+        &\begin{gathered}
+            \iff \\
+            def \ x \subseteq y
+        \end{gathered}
+        \left(A \subseteq B \iff \left(\forall x \in A \cup B \iff x \in B\right)\right)
+        \begin{gathered}
+            \iff \\
+            def \ x = y
+        \end{gathered}
+        A \subseteq B \iff A \cup B = B
+    \end{flalign*}
+
+    \section{Лавров ИА, Максимова ЛЛ | 1.13.д}
+    Доказать, что
+    \begin{flalign*}
+        \left(A \setminus B\right) \cup B = A \iff B \subseteq A
+    \end{flalign*}
+
+    \begin{flalign*}
+        &\top\left(B \subseteq A \iff B \subseteq A\right)
+        \begin{gathered}
+            \iff \\
+            A \subseteq \iff A \cup B = B
+        \end{gathered}
+        \left(B \cup A = A \iff B \subseteq A\right) \\
+        &\begin{gathered}
+            \iff \\
+            A \cup B = B \cup A
+        \end{gathered}
+        \left(A \cup B = A \iff B \subseteq A\right)
+        \begin{gathered}
+            \iff \\
+            \left(A \setminus B\right) \cup B = A \cup B
+        \end{gathered} \\
+        &\left(\left(A \setminus B\right) \cup B = A \iff B \subseteq A\right)
+    \end{flalign*}
+
+    \section{Лавров ИА, Максимова ЛЛ | 1.14}
+    Доказать тождества:
+    \begin{flalign*}
+        A \triangle \left(B \triangle C\right) = \left(A \triangle B\right) \triangle C
+    \end{flalign*}
+
+    \begin{flalign*}
+        &a \mid b
+        =
+        \left(a \wedge \overline{b}\right) \vee \left(b \wedge \overline{a}\right)
+        =
+        \left(a \vee b\right) \wedge \left(\overline{b} \vee \overline{a}\right) \\
+        &a \mid \left(b \mid c\right)
+        =
+        \left(a \wedge \overline{b \mid c}\right)
+        \vee
+        \left(\left(b \mid c\right) \wedge \overline{a}\right)
+        = \\
+        &\left(
+        a
+        \wedge
+        \overline {
+        \left(a \wedge \overline{b}\right) \vee \left(b \wedge \overline{a}\right)
+        }
+        \right)
+        \vee
+        \left(
+        \left(
+        \left(a \wedge \overline{b}\right)
+        \vee
+        \left(b \wedge \overline{a}\right)
+        \right)
+        \wedge
+        \overline{a}
+        \right)
+        =
     \end{flalign*}
 \end{document}
