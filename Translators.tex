@@ -1,0 +1,88 @@
+\documentclass[oneside]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage[left = 0.3\textwidth, right = 0.3\textwidth]{geometry}
+\usepackage{parskip}
+\usepackage[fleqn]{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\usepackage{textcomp}
+\usepackage{tikz}
+\usetikzlibrary{graphs, positioning}
+
+\setlength{\parskip}{0.03\textheight}
+
+\graphicspath{{images/}}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\newcommand{\meta}[1]{\text{<}#1\text{>}}
+\newcommand{\set}[1]{\left\{#1\right\}}
+
+\title{Трансляторы: \\ упражнения}
+\date{\today}
+\author{WinstonMDP}
+
+\begin{document}
+    \maketitle
+
+    \section{2.2.1}
+    Рассмотрим контекстно-свободную грамматику
+    \begin{flalign*}
+        S \rightarrow S S + \mid S S * \mid a
+    \end{flalign*}
+    \begin{enumerate}
+        \item Покажите, как данная грамматика генерирует строку $ a a + a * $.
+        \item Постройте дерево разбора для данной грамматики.
+        \item Какой язык генерирует данная грамматика? Обоснуйте свой ответ.
+    \end{enumerate}
+
+    \subsection*{a, b}
+    \begin{tikzpicture}
+        \node (l_1) {a};
+        \node (l_2) [right=of l_1] {a};
+        \node (l_3) [right=of l_2] {$ + $};
+        \node (l_4) [right=of l_3] {a};
+        \node (l_5) [right=of l_4] {$ * $};
+        \node (n_1) [above=of l_1] {S};
+        \node (n_2) [above=of l_2] {S};
+        \node (n_3) [above=of l_4] {S};
+        \node (n_4) [above=of n_2] {S};
+        \node (n_5) [above right=of n_4] {S};
+        \graph {
+            (l_1) -- (n_1);
+            (l_2) -- (n_2);
+            (l_3) -- (n_4);
+            (l_4) -- (n_3);
+            (l_5) -- (n_5);
+            (n_1) -- (n_4);
+            (n_2) -- (n_4);
+            (n_3) -- (n_5);
+            (n_4) -- (n_5);
+        };
+    \end{tikzpicture}
+
+    \subsection*{c}
+    Правосторонних операций (как-то так).
+
+    \section*{2.2.2}
+    Какой язык генерируется каждой из следующих грамматик?
+    В каждом случае обоснуйте свой ответ.
+    \begin{enumerate}
+        \item $ S \rightarrow 0 S 1 \mid 0 1 $.
+        \item $ S \rightarrow + S S \mid - S S \mid a $.
+        \item $ S \rightarrow S (S) S \mid \varepsilon $.
+    \end{enumerate}
+\end{document}
