@@ -20,15 +20,6 @@
 
 \graphicspath{{images/}}
 
-\hypersetup{
-    colorlinks,
-    citecolor=black,
-    filecolor=black,
-    linkcolor=black,
-    urlcolor=black
-}
-
-\newcommand{\meta}[1]{\text{<}#1\text{>}}
 \newcommand{\set}[1]{\left\{#1\right\}}
 
 \title{Трансляторы: \\ упражнения}
@@ -75,14 +66,169 @@
     \end{tikzpicture}
 
     \subsection*{c}
-    Правосторонних операций (как-то так).
+    Постфиксных операций.
 
-    \section*{2.2.2}
+    \section{2.2.2}
     Какой язык генерируется каждой из следующих грамматик?
     В каждом случае обоснуйте свой ответ.
-    \begin{enumerate}
-        \item $ S \rightarrow 0 S 1 \mid 0 1 $.
-        \item $ S \rightarrow + S S \mid - S S \mid a $.
-        \item $ S \rightarrow S (S) S \mid \varepsilon $.
-    \end{enumerate}
+    \subsection*{а}
+    \begin{flalign*}
+        S \rightarrow 0 S 1 \mid 0 1
+    \end{flalign*}
+
+    Язык строк из чётного количества единиц и нулей, где слева от середины нули и
+    их количество равно количеству единиц справа от середины, справа от середины
+    только единицы.
+
+    \subsection*{б}
+    \begin{flalign*}
+        S \rightarrow + S S \mid - S S \mid a
+    \end{flalign*}
+
+    Язык префиксной арифметики.
+
+    \subsection*{в}
+    \begin{flalign*}
+        S \rightarrow S (S) S \mid \varepsilon
+    \end{flalign*}
+
+    Язык правильных скобочных последовательностей.
+
+    \subsection*{г}
+    \begin{flalign*}
+        S \rightarrow a S b S \mid b S a S \mid \varepsilon
+    \end{flalign*}
+
+    Язык комбинаций $ a $ и $ b $ чётной длины.
+
+    \subsection*{д}
+    \begin{flalign*}
+        S \rightarrow a \mid S + S \mid S S \mid S * \mid (S)
+    \end{flalign*}
+
+    Язык с инфиксным сложением и с постфиксным умножением.
+
+    \section{2.2.3}
+    Какие из грамматик в упражнении 2.2.2 неоднозначны?
+
+    г: \\
+    \begin{tikzpicture}
+        \node (n_1) {a};
+        \node (n_2) [right=of n_1] {b};
+        \node (n_3) [right=of n_2] {a};
+        \node (n_4) [right=of n_3] {b};
+        \node (n_5) [right=of n_4] {a};
+        \node (n_6) [right=of n_5] {b};
+        \node (n_7) [above=of n_3] {S};
+        \node (n_8) [above=of n_7] {S};
+        \node (n_9) [above=of n_8] {S};
+        \graph {
+            (n_1) -- (n_9);
+            (n_3) -- (n_7);
+            (n_2) -- (n_8);
+            (n_4) -- (n_7);
+            (n_5) -- (n_8);
+            (n_6) -- (n_9);
+            (n_7) -- (n_8);
+            (n_8) -- (n_9);
+        };
+    \end{tikzpicture} \\
+    \begin{tikzpicture}
+        \node (n_1) {a};
+        \node (n_2) [right=of n_1] {b};
+        \node (n_3) [right=of n_2] {a};
+        \node (n_4) [right=of n_3] {b};
+        \node (n_5) [right=of n_4] {a};
+        \node (n_6) [right=of n_5] {b};
+        \node (n_7) [above=of n_3] {S};
+        \node (n_8) [above=of n_5] {S};
+        \node (n_9) [above right=of n_7] {S};
+        \graph {
+            (n_1) -- (n_9);
+            (n_2) -- (n_7);
+            (n_3) -- (n_7);
+            (n_4) -- (n_9);
+            (n_5) -- (n_8);
+            (n_6) -- (n_8);
+            (n_7) -- (n_9);
+            (n_8) -- (n_9);
+        };
+    \end{tikzpicture}
+
+    д: например, строка $ a + a * $.
+
+    \section{2.2.4}
+    Постройте однозначные контекстно-свободные грамматики для каждого
+    из следующих языков. В каждом случае покажите корректность вашей грамматики.
+
+    \subsection*{а}
+    Арифметические выражения в постфиксной записи.
+
+    \begin{flalign*}
+        S \rightarrow a \mid S S + \mid S S *
+    \end{flalign*}
+
+    \subsection*{б}
+    Левоассоциативный список идентификаторов, разделённых запятыми.
+
+    \begin{flalign*}
+        S \rightarrow a \mid a, S
+    \end{flalign*}
+
+    \subsection*{в}
+    Правоассоциативный список идентификаторов, разделённых запятыми.
+
+    \begin{flalign*}
+        S \rightarrow a \mid S, a
+    \end{flalign*}
+
+    \subsection*{г}
+    Арифметические выражения, состоящие из целых чисел и идентификаторов с
+    четырьмя бинарными операторами $ +, *, -, / $.
+
+    \begin{flalign*}
+        &O \rightarrow Z \mid (S) \\
+        &P \rightarrow P O \mid P / O \mid O \\
+        &S \rightarrow S + P \mid S - P \mid P
+    \end{flalign*}
+
+    \subsection*{д}
+    Добавьте унарные "плюс"{ }и "минус"{ }к арифметическим операторам из г.
+
+    \begin{flalign*}
+        &O \rightarrow Z \mid (S) \\
+        &U \rightarrow -O \mid +O \\
+        &R \rightarrow (U) \mid O \\
+        &P \rightarrow P R \mid P / R \mid R \\
+        &S \rightarrow S + P \mid S - P \mid P
+    \end{flalign*}
+
+    \begin{flalign*}
+        &O \rightarrow Z \mid (R) \\
+        &P \rightarrow P O \mid P / O \mid O \\
+        &S \rightarrow S + P \mid S - P \mid P \\
+        &R \rightarrow -S \mid +S \mid S \\
+        &\bot
+    \end{flalign*}
+
+    \section{по мотивам 2.3.2}
+    Постройте схему синтаксически управляемой трансляции, которая транслирует
+    арифметические выражения из постфиксной записи в инфиксную.
+
+    \begin{flalign*}
+        &right
+        \rightarrow \\
+        &[print \ -(] \ sum \ [print \ )] \ -
+        \mid \\
+        &[print \ +(] \ sum \ [print \ )] \ +
+        \mid \\
+        &[print \ -]Z \ -
+        \mid \\
+        &[print \ +]Z \ + \\
+        &sum
+        \rightarrow \\
+        &[print \ (] \ sum \ [print \ )] \ right
+        \mid \\
+        &Z \ right
+    \end{flalign*}
 \end{document}
