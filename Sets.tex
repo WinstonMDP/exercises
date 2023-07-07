@@ -1339,4 +1339,173 @@
     Для каждого положительного целого числа $ n $ указать множество $ A_n $ из
     $ n $ элементов такое, что если $ x, y \in A_n $, то $ x \in y $ или $ x \in y $ или
     $ x = y $.
+
+    \begin{flalign*}
+        &A_0 = \varnothing \\
+        &A_1 = \set{\varnothing} \\
+        &A_2 = \set{\varnothing, \set{\varnothing}} \\
+        &A_3 = \set{\varnothing,\set{\varnothing},\set{\varnothing,\set{\varnothing}}} \\
+        &\ldots \\
+        &A_1 = \set{\varnothing} \\
+        &A_{n + 1} = A_n \cup \set{A_n}
+    \end{flalign*}
+
+    \section{Лавров ИА, Максимова ЛЛ | 1.27}
+    Решить систему уравнений
+    \begin{flalign*}
+        \begin{cases}
+            A \cap X = B \\
+            A \cup X = C \\
+        \end{cases}
+    \end{flalign*}
+    где $ A, B, C $ - данные множества и $ B \subseteq A \subseteq C $.
+
+    \begin{flalign*}
+        &\left(
+        \exists X
+        \begin{cases}
+            A \cap X = B \\
+            A \cup X = C \\
+            B \subseteq A \subseteq C
+        \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            x \subseteq y \ y = x \cup y
+        \end{gathered}
+        \left(
+        \exists X
+        \begin{cases}
+            A \cap X = B \\
+            A \cup X = C \\
+            B \subseteq A \subseteq C \\
+            A \cup X = C = A \cup C
+        \end{cases}
+        \right) \\
+        &\begin{gathered}
+            \iff \\
+            x \subseteq y \ x = x \cap y
+        \end{gathered}
+        \left(
+        \exists X
+        \begin{cases}
+            A \cap X = B \\
+            A \cup X = C \\
+            B \subseteq A \subseteq C \\
+            A \cup X = C = A \cup C \\
+            A \cap X = B = A \cap B
+        \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ x = y
+        \end{gathered} \\
+        &\left(
+        \exists X
+        \begin{cases}
+            A \cap X = B \\
+            A \cup X = C \\
+            B \subseteq A \subseteq C \\
+            A \cup X = C = A \cup C \\
+            A \cap X = B = A \cap B \\
+            \forall x \in A \cup X \iff x \in A \cup C \\
+            \forall x \in A \cap X \iff x \in A \cap B
+        \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ x \subseteq y
+        \end{gathered}
+    \end{flalign*}
+    \begin{flalign*}
+        &\left(
+        \exists X
+        \begin{cases}
+            A \cap X = B \\
+            A \cup X = C \\
+            B \subseteq A \subseteq C \\
+            A \cup X = C = A \cup C \\
+            A \cap X = B = A \cap B \\
+            \forall x
+            \left[
+            \begin{aligned}
+                &x \in A \\
+                &x \in X
+            \end{aligned}
+            \right.
+            \iff
+            \left[
+            \begin{aligned}
+                x \in A \\
+                x \in C
+            \end{aligned}
+            \right. \\
+            \forall x 
+            \begin{cases}
+                x \in A \\
+                x \in X
+            \end{cases}
+            \iff
+            \begin{cases}
+                x \in A \\
+                x \in B
+            \end{cases}
+        \end{cases}
+        \right)
+        \iff \\
+        &\left(
+        \exists X
+        \begin{cases}
+            A \cap X = B \\
+            A \cup X = C \\
+            B \subseteq A \subseteq C \\
+            A \cup X = C = A \cup C \\
+            A \cap X = B = A \cap B \\
+            \forall x \in X
+            \iff
+            \left[
+            \begin{aligned}
+                \begin{cases}
+                    x \in A \\
+                    x \in B
+                \end{cases} \\
+                \begin{cases}
+                    x \not\in A \\
+                    x \in C
+                \end{cases}
+            \end{aligned}
+            \right.
+        \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ x = y
+        \end{gathered}
+        \left(
+        \exists X
+        \begin{cases}
+            A \cap X = B \\
+            A \cup X = C \\
+            B \subseteq A \subseteq C \\
+            A \cup X = C = A \cup C \\
+            A \cap X = B = A \cap B \\
+            X = B \cap A \cup C \setminus A
+        \end{cases}
+        \right) \\
+        &\begin{gathered}
+            \iff \\
+            x \subseteq y \ x \cap y = x
+        \end{gathered}
+        \left(
+        \exists X
+        \begin{cases}
+            A \cap X = B \\
+            A \cup X = C \\
+            B \subseteq A \subseteq C \\
+            A \cup X = C = A \cup C \\
+            A \cap X = B = A \cap B \\
+            X = B \cup C \setminus A
+        \end{cases}
+        \right)
+    \end{flalign*}
 \end{document}
