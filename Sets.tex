@@ -1508,4 +1508,234 @@
         \end{cases}
         \right)
     \end{flalign*}
+    Неверны кванторы. Везде $ \exists A, B, C, X $.
+
+    \section{Лавров ИА, Максимова ЛЛ | 1.28}
+    Решить систему уравнений
+    \begin{flalign*}
+        \begin{cases}
+            A \setminus X = B \\
+            X \setminus A = C
+        \end{cases}
+    \end{flalign*}
+    где $ A, B $ и $ C $ - данные множества и $ B \subseteq A $,
+    $ A \cap C = \varnothing $.
+
+    \begin{flalign*}
+        &\left(
+        \exists A, B, C, X
+        \begin{cases}
+            A \setminus X = B \\
+            X \setminus A = C \\
+            B \subseteq A \\
+            A \cap C = \varnothing
+        \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            x \subseteq y \ x = x \cap y
+        \end{gathered} \\
+        &\left(
+        \exists A, B, C, X
+        \begin{cases}
+            A \setminus X = B = B \cap A \\
+            X \setminus A = C \\
+            B \subseteq A \\
+            A \cap C = \varnothing
+        \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ x = y
+        \end{gathered} \\
+        &\left(
+        \exists A, B, C, X
+        \begin{cases}
+            A \setminus X = B = B \cap A \\
+            X \setminus A = C \\
+            B \subseteq A \\
+            A \cap C = \varnothing \\
+            \forall x \in A \setminus X \iff x \in B \cap A \\
+            \forall x \in X \setminus A \iff x \in C
+        \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ x \setminus y
+        \end{gathered} \\
+        &\left(
+        \exists A, B, C, X
+        \begin{cases}
+            A \setminus X = B = B \cap A \\
+            X \setminus A = C \\
+            B \subseteq A \\
+            A \cap C = \varnothing \\
+            \forall x
+            \begin{cases}
+                x \in A \\
+                x \not\in X
+            \end{cases}
+            \iff
+            x \in B \cap A \\
+            \forall x
+            \begin{cases}
+                x \in X \\
+                x \not\in A
+            \end{cases}
+            \iff
+            x \in C
+        \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ x \cap y
+        \end{gathered} \\
+        &\left(
+        \exists A, B, C, X
+        \begin{cases}
+            A \setminus X = B = B \cap A \\
+            X \setminus A = C \\
+            B \subseteq A \\
+            A \cap C = \varnothing \\
+            \forall x
+            \begin{cases}
+                x \in A \\
+                x \not\in X
+            \end{cases}
+            \iff
+            \begin{cases}
+                x \in A \\
+                x \in B
+            \end{cases} \\
+            \forall x
+            \begin{cases}
+                x \in X \\
+                x \not\in A
+            \end{cases}
+            \iff
+            x \in C
+        \end{cases}
+        \right)
+        \iff \\
+        &\left(
+        \exists A, B, C, X
+        \begin{cases}
+            A \setminus X = B = B \cap A \\
+            X \setminus A = C \\
+            B \subseteq A \\
+            A \cap C = \varnothing \\
+            \forall x \in X
+            \iff
+            \left[
+            \begin{aligned}
+                &\begin{cases}
+                    x \in A \\
+                    x \not\in B
+                \end{cases} \\
+                &\begin{cases}
+                    x \not\in A \\
+                    x \in C
+                \end{cases}
+            \end{aligned}
+            \right.
+         \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ x \setminus y
+        \end{gathered}
+    \end{flalign*}
+    \begin{flalign*}
+        &\left(
+        \exists A, B, C, X
+        \begin{cases}
+            A \setminus X = B = B \cap A \\
+            X \setminus A = C \\
+            B \subseteq A \\
+            A \cap C = \varnothing \\
+            \forall x \in X
+            \iff
+            \left[
+            \begin{aligned}
+                &x \in A \setminus B \\
+                &x \in C \setminus A
+            \end{aligned}
+            \right.
+         \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ x \cup y
+        \end{gathered} \\
+        &\left(
+        \exists A, B, C, X
+        \begin{cases}
+            A \setminus X = B = B \cap A \\
+            X \setminus A = C \\
+            B \subseteq A \\
+            A \cap C = \varnothing \\
+            \forall x \in X \iff x \in A \setminus B \cup C \setminus A
+        \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            def \ x = y
+        \end{gathered} \\
+        &\left(
+        \exists A, B, C, X
+        \begin{cases}
+            A \setminus X = B = B \cap A \\
+            X \setminus A = C \\
+            B \subseteq A \\
+            A \cap C = \varnothing \\
+            X = A \setminus B \cup C \setminus A
+        \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            x \cap y = \varnothing \ y \setminus x = y
+        \end{gathered} \\
+        &\left(
+        \exists A, B, C, X
+        \begin{cases}
+            A \setminus X = B = B \cap A \\
+            X \setminus A = C \\
+            B \subseteq A \\
+            A \cap C = \varnothing \\
+            X = A \setminus B \cup C
+        \end{cases}
+        \right)
+    \end{flalign*}
+
+    \section{Лавров ИА, Максимова ЛЛ | брифинг 1.30}
+    Решить систему уравнений
+    \begin{flalign*}
+        \begin{cases}
+            A \setminus X = B \\
+            A \cup X = C
+        \end{cases}
+    \end{flalign*}
+    где $ A, B $ и $ C $ - данные множества и $ B \subseteq A \subseteq C $.
+
+    \begin{flalign*}
+        &X
+        =
+        A\overline{B} + C\overline{A}
+        =
+        A\overline{B} + C\overline{\left(A + B\right)}
+        =
+        A\overline{B} + C\overline{A}\overline{B}
+        =
+        \overline{B}\left(A + C\overline{A}\right)
+        =
+        \overline{B}\left(AC + C\overline{A}\right)
+        = \\
+        &\overline{B}C\left(A + \overline{A}\right)
+        =
+        \overline{B}C
+    \end{flalign*}
+
+    \section{Дашков ЕВ | 1.2.56}
+    Пусть множества $ A $ и $ B $ непусты и $ \left(A \times B\right) \cup
+    \left(B \times A\right) = C \times D $. Тогда $ A = B = C = D $.
 \end{document}
