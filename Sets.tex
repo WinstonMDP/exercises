@@ -1744,111 +1744,151 @@
     \end{flalign*}
 
     \begin{flalign*}
-        &\top
+        &\left(
+        \exists y, z
         \begin{cases}
-            \forall x
-            \left(\exists y \in A, z \in B \ x = (y, z)\right)
-            \exists y \in A, z \in B \ x = (y, z) \\
-            \forall x
-            \left(\exists y \in C, z \in D \ x = (y, z)\right)
-            \exists y \in C, z \in D \ x = (y, z)
-        \end{cases} \\
-        &\begin{cases}
-            \forall x
-            \left(\exists y \in A, z \in B \ y \in C \ z \in D \ x = (y, z)\right)
-            \exists y \in A, z \in B \ x = (y, z) \\
-            \forall x
-            \left(\exists y \in A, z \in B \ y \in C \ z \in D \ x = (y, z)\right)
-            \exists y \in C, z \in D \ x = (y, z)
+            x = (y, z) \\
+            y \in A \cap C \\
+            z \in B \cap D \\
         \end{cases}
+        \iff
+        \exists y, z
+            \begin{cases}
+                y \in A \cap C \\
+                z \in B \cap D \\
+                x = (y, z)
+            \end{cases}
+        \right)
+        \begin{gathered}
+            \iff \\
+            \exists y = x
+        \end{gathered} \\
+        &\left(
+        \exists y, z, w, i
+        \begin{cases}
+            x = (y, z) = (i, w) \\
+            y = i \\
+            z = w \\
+            y \in A \cap C \\
+            z \in B \cap D \\
+        \end{cases}
+        \iff
+        \exists y, z
+            \begin{cases}
+                y \in A \cap C \\
+                z \in B \cap D \\
+                x = (y, z)
+            \end{cases}
+        \right)
         \begin{gathered}
             \iff \\
             def \ x \cap y
         \end{gathered} \\
-        &\begin{cases}
-            \forall x
-            \left(\exists y \in A \cap C, z \in B \cap D \ x = (y, z)\right)
-            \exists y \in A, z \in B \ x = (y, z) \\
-            \forall x
-            \left(\exists y \in A \cap C, z \in B \cap D \ x = (y, z)\right)
-            \exists y \in C, z \in D \ x = (y, z)
-        \end{cases}
-        \iff \\
         &\left(
-        \forall x
-        \left(\exists y \in A \cap C, z \in B \cap D \ x = (y, z)\right)
+        \exists y, z, w, i
         \begin{cases}
-            \exists y \in A, z \in B \ x = (y, z) \\
-            \exists y \in C, z \in D \ x = (y, z)
-        \end{cases}
-        \right)
-        \iff \\
-        &\begin{cases}
-            \forall x \ \exists w, i
-            \begin{cases}
-                \exists y \in A, z \in B \ x = (y, z) \\
-                \exists y \in C, z \in D \ x = (y, z) \\
-                w \in A \cap C \\
-                i \in B \cap D \\
-                w \in A \\
-                i \in B \\
-                x = (w, i)
-            \end{cases}
-             \ x = (w, i) \\
-            \forall x \
-            \left(\exists y \in A \cap C, z \in B \cap D \ x = (y, z)\right)
-            \begin{cases}
-                \exists y \in A, z \in B \ x = (y, z) \\
-                \exists y \in C, z \in D \ x = (y, z)
-            \end{cases}
-        \end{cases} \\
-        &\iff \\
-        &\begin{cases}
-            \forall x
-            \begin{cases}
-                \exists y \in A, z \in B \ x = (y, z) \\
-                \exists y \in C, z \in D \ x = (y, z)
-            \end{cases}
-            \exists y \in A \cap C, z \in B \cap D \ y \in A \ z \in B \ x = (y, z) \\
-            \forall x \
-            \left(\exists y \in A \cap C, z \in B \cap D \ x = (y, z)\right)
-            \begin{cases}
-                \exists y \in A, z \in B \ x = (y, z) \\
-                \exists y \in C, z \in D \ x = (y, z)
-            \end{cases}
-        \end{cases} \\
-        &\begin{gathered}
-            \iff \\
-            x \in y \cap z \ x \in y
-        \end{gathered} \\
-        &\begin{cases}
-            \forall x
-            \begin{cases}
-                \exists y \in A, z \in B \ x = (y, z) \\
-                \exists y \in C, z \in D \ x = (y, z)
-            \end{cases}
-            \exists y \in A \cap C, z \in B \cap D \ x = (y, z) \\
-            \forall x \
-            \left(\exists y \in A \cap C, z \in B \cap D \ x = (y, z)\right)
-            \begin{cases}
-                \exists y \in A, z \in B \ x = (y, z) \\
-                \exists y \in C, z \in D \ x = (y, z)
-            \end{cases}
-        \end{cases}
-        \iff \\
-        &\left(
-        \begin{cases}
-            \exists y \in A, z \in B \ x = (y, z) \\
-            \exists y \in C, z \in D \ x = (y, z)
+            y \in A \\
+            z \in B \\
+            x = (y, z) = (i, w) \\
+            y = i \\
+            z = w \\
+            y \in C \\
+            z \in D
         \end{cases}
         \iff
-        \exists y \in A \cap C, z \in B \cap D \ x = (y, z)
-        \right)
-        \begin{gathered}
+        \exists y, z
+            \begin{cases}
+                x
+                \in
+                y \in A \cap C \\
+                z \in B \cap D \\
+                x = (y, z)
+            \end{cases}
+        \right) \\
+        &\begin{gathered}
             \iff \\
-            def \ x \times y
+            x = y \ \forall z \ x \in z \iff y \in z
         \end{gathered} \\
         &\left(
+        \exists y, z, w, i
+        \begin{cases}
+            y \in A \\
+            z \in B \\
+            x = (y, z) = (i, w) \\
+            w \in C \\
+            i \in D \\
+            y = i \\
+            z = w
+        \end{cases}
+        \iff
+        \exists y, z
+            \begin{cases}
+                x
+                \in
+                y \in A \cap C \\
+                z \in B \cap D \\
+                x = (y, z)
+            \end{cases}
+        \right) \\
+        &\begin{gathered}
+            \iff \\
+            (x, y) = (z, w)
+            \iff
+            \begin{cases}
+                x = z \\
+                y = w
+            \end{cases}
+        \end{gathered} \\
+        &\left(
+        \exists y, z, w, i
+        \begin{cases}
+            y \in A \\
+            z \in B \\
+            x = (y, z) = (i, w) \\
+            w \in C \\
+            i \in D
+        \end{cases}
+        \iff
+        \exists y, z
+            \begin{cases}
+                x
+                \in
+                y \in A \cap C \\
+                z \in B \cap D \\
+                x = (y, z)
+            \end{cases}
+        \right)
+        \iff \\
+        &\left(
+        \begin{cases}
+            \exists y, z
+            \begin{cases}
+                y \in A \\
+                z \in B \\
+                x = (y, z)
+            \end{cases} \\
+            \exists y, z
+            \begin{cases}
+                y \in C \\
+                z \in D \\
+                x = (y, z)
+            \end{cases}
+        \end{cases}
+        \iff
+        \exists y, z
+            \begin{cases}
+                x
+                \in
+                y \in A \cap C \\
+                z \in B \cap D \\
+                x = (y, z)
+            \end{cases}
+        \right) \\
+        &\begin{gathered}
+            \iff \\
+            def \ x \times y
+        \end{gathered}
+        \left(
         \begin{cases}
             x \in A \times B \\
             x \in C \times D
@@ -1865,6 +1905,187 @@
         \left(A \cap C\right) \times \left(B \cap D\right)
     \end{flalign*}
 
+    \section{Дашков ЕВ | 1.2.55}
+    Пусть множества $ A $ и $ B $ непусты. Тогда имеем
+    \begin{flalign*}
+        \begin{cases}
+            A \subseteq C \\
+            B \subseteq D
+        \end{cases}
+        \iff
+        A \times B \subseteq C \times D
+    \end{flalign*}
+
+    \begin{flalign*}
+        &\left(
+        \begin{cases}
+            A \neq \varnothing \\
+            B \neq \varnothing
+        \end{cases}
+        \begin{cases}
+            \left(
+            \forall x
+            \left(
+            \exists y, z
+            \begin{cases}
+                y \in A \\
+                z \in B \\
+                x = (y, z)
+            \end{cases}
+            \right)
+            \left(
+            \exists y, z
+            \begin{cases}
+                y \in C \\
+                z \in D \\
+                x = (y, z)
+            \end{cases}
+            \right)
+            \right)
+            \forall x \in A \ x \in C \\
+            \left(
+            \forall x
+            \left(
+            \exists y, z
+            \begin{cases}
+                y \in A \\
+                z \in B \\
+                x = (y, z)
+            \end{cases}
+            \right)
+            \left(
+            \exists y, z
+            \begin{cases}
+                y \in C \\
+                z \in D \\
+                x = (y, z)
+            \end{cases}
+            \right)
+            \right)
+            \forall x \in B \ x \in D
+        \end{cases}
+        \right) \\
+        &\iff \\
+        &\left(
+        \begin{cases}
+            A \neq \varnothing \\
+            B \neq \varnothing
+        \end{cases}
+        \begin{cases}
+            \begin{cases}
+                \forall x \in A \ x \in C \\
+                \forall x \in B \ x \in D \\
+            \end{cases}
+            \forall x
+            \left(
+            \exists y, z
+            \begin{cases}
+                y \in A \\
+                z \in B \\
+                x = (y, z)
+            \end{cases}
+            \right)
+            \left(
+            \exists y, z
+            \begin{cases}
+                y \in C \\
+                z \in D \\
+                x = (y, z)
+            \end{cases}
+            \right) \\
+            \left(
+            \forall x
+            \left(
+            \exists y, z
+            \begin{cases}
+                y \in A \\
+                z \in B \\
+                x = (y, z)
+            \end{cases}
+            \right)
+            \left(
+            \exists y, z
+            \begin{cases}
+                y \in C \\
+                z \in D \\
+                x = (y, z)
+            \end{cases}
+            \right)
+            \right)
+            \begin{cases}
+                \forall x \in A \ x \in C \\
+                \forall x \in B \ x \in D \\
+            \end{cases}
+        \end{cases}
+        \right) \\
+        &\left(
+        \begin{cases}
+            A \neq \varnothing \\
+            B \neq \varnothing
+        \end{cases}
+        \left(
+        \begin{cases}
+            \forall x \in A \ x \in C \\
+            \forall x \in B \ x \in D \\
+        \end{cases}
+        \iff
+        \forall x
+        \left(
+        \exists y, z
+        \begin{cases}
+            y \in A \\
+            z \in B \\
+            x = (y, z)
+        \end{cases}
+        \right)
+        \left(
+        \exists y, z
+        \begin{cases}
+            y \in C \\
+            z \in D \\
+            x = (y, z)
+        \end{cases}
+        \right)
+        \right)
+        \right) \\
+        &\begin{gathered}
+            \iff \\
+            def \ x \times y
+        \end{gathered}
+        \left(
+        \begin{cases}
+            A \neq \varnothing \\
+            B \neq \varnothing
+        \end{cases}
+        \left(
+        \begin{cases}
+            \forall x \in A \ x \in C \\
+            \forall x \in B \ x \in D \\
+        \end{cases}
+        \iff
+        \forall x \in A \times B \ x \in C \times D
+        \right)
+        \right) \\
+        &\begin{gathered}
+            \iff \\
+            def \ x \subseteq y
+        \end{gathered}
+        \left(
+        \begin{cases}
+            A \neq \varnothing \\
+            B \neq \varnothing
+        \end{cases}
+        \left(
+        \begin{cases}
+            A \subseteq C \\
+            B \subseteq D \\
+        \end{cases}
+        \iff
+        A \times B \subseteq C \times D
+        \right)
+        \right)
+    \end{flalign*}
+
     \section{Дашков ЕВ | 1.2.56}
     Пусть множества $ A $ и $ B $ непусты и $ \left(A \times B\right) \cup
     \left(B \times A\right) = C \times D $. Тогда $ A = B = C = D $.
@@ -1876,10 +2097,10 @@
                 B \neq \varnothing \\
                 \forall x \
                 \left(\exists y \in A, z \in B \ x = (y, z)\right) \
-                \left(\exists y \in C, z \in D \ x = (y, z)\right) \\
+                \exists y \in C, z \in D \ x = (y, z) \\
                 \forall x \
                 \left(\exists y \in B, z \in A \ x = (y, z)\right) \
-                \left(\exists y \in C, z \in D \ x = (y, z)\right) \\
+                \exists y \in C, z \in D \ x = (y, z) \\
                 w \in A
             \end{cases}
             w \in B \\
@@ -1888,10 +2109,10 @@
                 B \neq \varnothing \\
                 \forall x \
                 \left(\exists y \in A, z \in B \ x = (y, z)\right) \
-                \left(\exists y \in C, z \in D \ x = (y, z)\right) \\
+                \exists y \in C, z \in D \ x = (y, z) \\
                 \forall x \
                 \left(\exists y \in B, z \in A \ x = (y, z)\right) \
-                \left(\exists y \in C, z \in D \ x = (y, z)\right) \\
+                \exists y \in C, z \in D \ x = (y, z) \\
                 w \in B
             \end{cases}
             w \in A \\
@@ -1904,12 +2125,27 @@
             \forall x
             \left[
             \begin{aligned}
-                \exists y \in A, z \in B \ x = (y, z) \\
-                \exists y \in B, z \in A \ x = (y, z)
+                \exists y, z
+                \begin{cases}
+                    y \in A \\
+                    z \in B \\
+                    x = (y, z)
+                \end{cases} \\
+                \exists y, z
+                \begin{cases}
+                    y \in B \\
+                    z \in A \\
+                    x = (y, z)
+                \end{cases}
             \end{aligned}
             \right.
             \iff
-            \exists y \in C, z \in D \ x = (y, z)
+            \exists y, z
+            \begin{cases}
+                y \in C \\
+                z \in D \\
+                x = (y, z)
+            \end{cases}
         \end{cases}
         A = B = C = D
         \right) \\
