@@ -38,16 +38,11 @@ back : {x y : Set} → x ≡ y → y → x
 back (eq (z ∧ w)) = w
  
 third-proof : (x y : 𝕊) → x ⊆ y → (∪ x) ⊆ (∪ y)
-third-proof x y z = third λ q r → straight (∪-def q y) (forth q r)
-    where first : (z₁ : 𝕊) → z₁ ∈ x → z₁ ∈ y
-          first = back (⊆-def x y) z
-          second : (a : 𝕊) → a ∈ ∪ x → ∃ (λ { z → a ∈ z and z ∈ x })
-          second a = back (∪-def a x)
-          third : ((z₁ : 𝕊) → z₁ ∈ ∪ x → z₁ ∈ ∪ y) → ∪ x ⊆ ∪ y
-          third = straight (⊆-def (∪ x) (∪ y))
-          forth : (a : 𝕊) → a ∈ ∪ x → ∃ (λ { z → a ∈ z and z ∈ y })
-          forth a b = forth-second forth-first
-              where forth-first : _
-                    forth-first = second a b
-                    forth-second : ∃ (λ { z → a ∈ z and z ∈ x }) → ∃ (λ { z → a ∈ z and z ∈ y })
-                    forth-second (exists α β (γ ∧ δ)) = exists α (λ { z → a ∈ z and z ∈ y }) (γ ∧ (first α δ))
+third-proof x y z = straight (⊆-def (∪ x) (∪ y)) λ q r → straight (∪-def q y) (forth q r)
+    where forth : (a : 𝕊) → a ∈ ∪ x → ∃ (λ { z → a ∈ z and z ∈ y })
+          forth a b = forth-second (back (∪-def a x) b)
+              where forth-second : ∃ (λ { z → a ∈ z and z ∈ x }) → ∃ (λ { z → a ∈ z and z ∈ y })
+                    forth-second = λ { (exists {𝕊} α β ((_∧_) γ δ)) → exists {𝕊} α (λ { z → a ∈ z and z ∈ y }) (γ ∧ (back (⊆-def x y) z α δ)) }
+
+straight-2 : {x y : Set} → x ≡ y → x → y
+straight-2 (eq ((_∧_) z w)) = {!!}
