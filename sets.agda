@@ -29,7 +29,7 @@ infixr 50 _==_
 postulate
     eq_ax : (x y : 𝕊) → (x == y) → (z : 𝕊) → (x ∈ z ≡ y ∈ z)
     pair_ax : (x y : 𝕊) → ∃ λ { z → x ∈ z and y ∈ z }
-    ∪ : 𝕊 → 𝕊
+    ∪ : 𝕊 → 𝕊 -- union axiom
     ∪-def : (x y : 𝕊) → (∃ λ { z → x ∈ z and z ∈ y }) ≡ x ∈ ∪ y
 
 data _⊆_ : 𝕊 → 𝕊 → Set where
@@ -37,9 +37,14 @@ data _⊆_ : 𝕊 → 𝕊 → Set where
 infixr 50 _⊆_
 
 postulate
-    𝓟 : 𝕊 → 𝕊
+    𝓟 : 𝕊 → 𝕊 -- power axiom
     𝓟-def : (x y : 𝕊) → x ⊆ y ≡ x ∈ (𝓟 y)
 
+data ⊥ : Set where
+
+data ¬ : Set → Set where
+    ¬-def : (x : Set) → (x → ⊥) → ¬ x 
+    
 th-1 : (x y : 𝕊) → x ⊆ y → (∪ x) ⊆ (∪ y)
 th-1 x y (⊆-def _ _ z) = ⊆-def (∪ x) (∪ y) λ w i → straight (∪-def w y) (lm-1 w (back (∪-def w x) i))
     where lm-1 : (a : 𝕊) → ∃ (λ { α → a ∈ α and α ∈ x }) → ∃ (λ { α → a ∈ α and α ∈ y })
