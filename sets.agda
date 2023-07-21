@@ -100,7 +100,7 @@ x-∈-x-⊥ x y = lm-4 x (∃-element (lm-2 x (lm-1 x))) (∃-application (lm-2 
                  (w : ∃ (λ i → z ∈ i and ((w : 𝕊) → w ∈ i → w == z))) →
                  (∃ λ i → i ∈ ∃-element w and ((j : 𝕊) → j ∈ ∃-element w → ¬(j ∈ i))) →
                  z ∈ ∃-element w and ((j : 𝕊) → j ∈ ∃-element w → ¬(j ∈ z))
-          lm-5 z w i = and-def {!!} {!!}
+          lm-5 z (∃-def _ z₁ (and-def x x₁)) (∃-def _ z₂ x₂) = and-def x {!!}
     
           lm-4 : (z i : 𝕊) → z ∈ i and ((w : 𝕊) → w ∈ i → w == z) → z ∈ i and ((j : 𝕊) → j ∈ i → ¬(j ∈ z)) → ⊥
           lm-4 = {!!}
