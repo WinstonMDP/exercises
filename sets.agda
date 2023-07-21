@@ -9,7 +9,6 @@ and-left (and-def z _) = z
 and-right : {x y : Set} → x and y → y
 and-right (and-def _ z) = z
 
-
 data _≡_ : Set → Set → Set where
     ≡-def : {x y : Set} → (x → y) and (y → x) → x ≡ y
 infixr 30 _≡_
@@ -33,7 +32,10 @@ data ⊥ : Set where
 
 data ¬ : Set → Set where
     ¬-def : (x : Set) → (x → ⊥) → ¬ x
-   
+
+to-⊥ : {x : Set} → ¬ x → x → ⊥
+to-⊥ (¬-def _ y) = y
+    
 data _or_ : Set → Set → Set where
     or-def-l : (x y : Set) → x → x or y
     or-def-r : (x y : Set) → y → x or y
@@ -81,29 +83,11 @@ th-3 x (⊆-def .(∪ x) .x y) =
           lm-2 : (z : 𝕊) → ∃ (λ α → z ∈ α and α ∈ 𝓟 x) → z ∈ x 
           lm-2 z (∃-def .(λ α → z ∈ α and α ∈ 𝓟 x) a (and-def b c)) = lm-1 a x ((back (𝓟-def a x)) c) z b
 
-x-∈-x-⊥ : (x : 𝕊) → (x ∈ x) → ⊥
-x-∈-x-⊥ x y = lm-4 x (∃-element (lm-2 x (lm-1 x))) (∃-application (lm-2 x (lm-1 x))) (∃-application (lm-3 x {!!} {!!}))
-    where lm-1 : (x : 𝕊) → ∃ (λ z → x ∈ z and x ∈ z and ((w : 𝕊) → w ∈ z → w == x or w == x))
-          lm-1 x = pair-ax x x
+x-∈-x-⊥ : (x : 𝕊) → ¬(x ∈ x)
+x-∈-x-⊥ x = {!!}
 
-          lm-2 : (x : 𝕊) → ∃ (λ z → x ∈ z and x ∈ z and ((w : 𝕊) → w ∈ z → w == x or w == x)) → ∃ (λ z → x ∈ z and ((w : 𝕊) → w ∈ z → w == x))
-          lm-2 x (∃-def .(λ z → x ∈ z and x ∈ z and ((w : 𝕊) → w ∈ z → w == x or w == x)) y (and-def (and-def i _) j)) =
-               ∃-def (λ z → x ∈ z and ((w : 𝕊) → w ∈ z → w == x)) y (and-def i λ q r → or-absorption (q == x) (j q r))
-
-          lm-3 : (z : 𝕊) →
-                 (w : ∃ (λ i → z ∈ i and ((w : 𝕊) → w ∈ i → w == z))) →
-                 ((i : 𝕊) → ∃ (λ j → j ∈ i and ((w : 𝕊) → w ∈ i → ¬(w ∈ j)))) →
-                 ∃ λ i → i ∈ ∃-element w and ((j : 𝕊) → j ∈ ∃-element w → ¬(j ∈ i))
-          lm-3 z (∃-def .(λ i → z ∈ i and ((w : 𝕊) → w ∈ i → w == z)) w _) i = i w
+postulate
+    η : 𝕊
     
-          lm-5 : (z : 𝕊) →
-                 (w : ∃ (λ i → z ∈ i and ((w : 𝕊) → w ∈ i → w == z))) →
-                 (∃ λ i → i ∈ ∃-element w and ((j : 𝕊) → j ∈ ∃-element w → ¬(j ∈ i))) →
-                 z ∈ ∃-element w and ((j : 𝕊) → j ∈ ∃-element w → ¬(j ∈ z))
-          lm-5 z (∃-def _ z₁ (and-def x x₁)) (∃-def _ z₂ x₂) = and-def x {!!}
-    
-          lm-4 : (z i : 𝕊) → z ∈ i and ((w : 𝕊) → w ∈ i → w == z) → z ∈ i and ((j : 𝕊) → j ∈ i → ¬(j ∈ z)) → ⊥
-          lm-4 = {!!}
-
 set-of-all-sets-⊥ : ¬(∃ λ x → (y : 𝕊) → y ∈ x)
-set-of-all-sets-⊥ = ¬-def (∃ (λ z → (x : 𝕊) → x ∈ z)) λ { (∃-def .(λ x → (y : 𝕊) → y ∈ x) z w) → x-∈-x-⊥ z (w z) }
+set-of-all-sets-⊥ = ¬-def (∃ (λ x → (y : 𝕊) → y ∈ x)) λ { (∃-def .(λ x → (y : 𝕊) → y ∈ x) z w) → to-⊥ (x-∈-x-⊥ z) (w z) }
