@@ -33,8 +33,8 @@ data ⊥ : Set where
 data ¬ : Set → Set where
     ¬-def : (x : Set) → (x → ⊥) → ¬ x
 
-to-⊥ : {x : Set} → ¬ x → x → ⊥
-to-⊥ (¬-def _ y) = y
+¬-to-⊥ : {x : Set} → ¬ x → x → ⊥
+¬-to-⊥ (¬-def _ y) = y
     
 data _or_ : Set → Set → Set where
     or-def-l : (x y : Set) → x → x or y
@@ -58,6 +58,9 @@ data _⊆_ : 𝕊 → 𝕊 → Set where
     ⊆-def : (x y : 𝕊) → ((z : 𝕊) → z ∈ x → z ∈ y) → x ⊆ y 
 infix 50 _⊆_
 
+⊆-to : (x y : 𝕊) → x ⊆ y → ((z : 𝕊) → z ∈ x → z ∈ y)
+⊆-to _ _ (⊆-def _ _ z) = z
+
 postulate
     eq-ax : (x y : 𝕊) → x == y → (z : 𝕊) → x ∈ z ≡ y ∈ z
     pair-ax : (x y : 𝕊) → ∃ λ z → x ∈ z and y ∈ z and ((w : 𝕊) → w ∈ z → w == x or w == y)
@@ -77,14 +80,21 @@ th-2 x = ⊆-def x (𝓟 (∪ x)) λ y z → straight (𝓟-def y (∪ x)) (⊆-
 
 th-3 : (x : 𝕊) → ∪ x ⊆ x → ∪ (𝓟 x) ⊆ 𝓟 x
 th-3 x (⊆-def .(∪ x) .x y) =
-    ⊆-def (∪ (𝓟 x)) (𝓟 x) λ z w → straight (𝓟-def z x) (⊆-def z x (λ i j → y i (straight (∪-def i x) (∃-def (λ α → i ∈ α and α ∈ x) z (and-def j (lm-2 z (back (∪-def z (𝓟 x)) w)))))))
-    where lm-1 : (a b : 𝕊) → a ⊆ b → (c : 𝕊) → c ∈ a → c ∈ b
-          lm-1 _ _ (⊆-def _ _ e) c f = e c f
-          lm-2 : (z : 𝕊) → ∃ (λ α → z ∈ α and α ∈ 𝓟 x) → z ∈ x 
-          lm-2 z (∃-def .(λ α → z ∈ α and α ∈ 𝓟 x) a (and-def b c)) = lm-1 a x ((back (𝓟-def a x)) c) z b
+    ⊆-def (∪ (𝓟 x)) (𝓟 x) λ z w → straight (𝓟-def z x) (⊆-def z x (λ i j → y i (straight (∪-def i x) (∃-def (λ α → i ∈ α and α ∈ x) z (and-def j (lm-1 z (back (∪-def z (𝓟 x)) w)))))))
+    where lm-1 : (z : 𝕊) → ∃ (λ α → z ∈ α and α ∈ 𝓟 x) → z ∈ x 
+          lm-1 z (∃-def .(λ α → z ∈ α and α ∈ 𝓟 x) a (and-def b c)) = ⊆-to a x ((back (𝓟-def a x)) c) z b
 
 x-∈-x-⊥ : (x : 𝕊) → ¬(x ∈ x)
-x-∈-x-⊥ x = {!!}
+x-∈-x-⊥ x = ¬-def (x ∈ x) λ y → ¬-to-⊥ (and-right (∃-application (foundation-ax (∃-element (pair-ax x x)) (∃-def (λ z → z ∈ ∃-element (pair-ax x x)) x lm-1))) {!!} {!!}) {!!}
+    where lm-1 : x ∈ ∃-element (pair-ax x x)
+          lm-1 = and-left (and-left (∃-application (pair-ax x x)))
+          lm-2 : x ∈ ∃-element (foundation-ax (∃-element (pair-ax x x)) (∃-def (λ z → z ∈ ∃-element (pair-ax x x)) x lm-1))
+          lm-2 = {!!}
+
+paralel : (x : 𝕊) → ¬(x ∈ x)
+paralel x = {!!}
+
+-- (and-right (∃-application (foundation-ax ? ?))) x ?
 
 set-of-all-sets-⊥ : ¬(∃ λ x → (y : 𝕊) → y ∈ x)
-set-of-all-sets-⊥ = ¬-def (∃ (λ x → (y : 𝕊) → y ∈ x)) λ { (∃-def .(λ x → (y : 𝕊) → y ∈ x) z w) → to-⊥ (x-∈-x-⊥ z) (w z) }
+set-of-all-sets-⊥ = ¬-def (∃ (λ x → (y : 𝕊) → y ∈ x)) λ { (∃-def .(λ x → (y : 𝕊) → y ∈ x) z w) → ¬-to-⊥ (x-∈-x-⊥ z) (w z) }
