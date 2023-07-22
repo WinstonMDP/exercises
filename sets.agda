@@ -13,8 +13,8 @@ data _≡_ : Set → Set → Set where
     ≡-def : {x y : Set} → (x → y) and (y → x) → x ≡ y
 infixr 30 _≡_
 
-straight : {x y : Set} → x ≡ y → x → y
-straight (≡-def (and-def z _)) = z
+to : {x y : Set} → x ≡ y → x → y
+to (≡-def (and-def z _)) = z
 
 back : {x y : Set} → x ≡ y → y → x
 back (≡-def (and-def _ z)) = z
@@ -40,10 +40,10 @@ data _or_ : Set → Set → Set where
     or-def-l : (x y : Set) → x → x or y
     or-def-r : (x y : Set) → y → x or y
 infixl 30 _or_
-    
-or-absorption : (x : Set) → x or x → x
-or-absorption _ (or-def-l _ _ y) = y
-or-absorption _ (or-def-r _ _ y) = y
+
+or-absorption : {x : Set} → x or x → x
+or-absorption (or-def-l _ _ y) = y
+or-absorption (or-def-r _ _ y) = y
     
 postulate
     𝕊 : Set
@@ -51,8 +51,11 @@ postulate
 infix 50 _∈_
 
 data _==_ : 𝕊 → 𝕊 → Set where
-    ==-def : (x y z : 𝕊) → (z ∈ x ≡ z ∈ y) → x == y
+    ==-def : (x y : 𝕊) → ((z : 𝕊) → z ∈ x ≡ z ∈ y) → x == y
 infixr 50 _==_
+
+==-logic-eq : {x y : 𝕊} → x == y → (z : 𝕊) → (z ∈ x ≡ z ∈ y)
+==-logic-eq (==-def _ _ x) = x
 
 data _⊆_ : 𝕊 → 𝕊 → Set where
     ⊆-def : (x y : 𝕊) → ((z : 𝕊) → z ∈ x → z ∈ y) → x ⊆ y 
@@ -71,30 +74,32 @@ postulate
     foundation-ax : (x : 𝕊) → ∃ (λ y → y ∈ x) → ∃ λ y → y ∈ x and ((z : 𝕊) → z ∈ x → ¬(z ∈ y))
     
 th-1 : (x y : 𝕊) → x ⊆ y → (∪ x) ⊆ (∪ y)
-th-1 x y (⊆-def _ _ z) = ⊆-def (∪ x) (∪ y) λ w i → straight (∪-def w y) (lm-1 w (back (∪-def w x) i))
+th-1 x y (⊆-def _ _ z) = ⊆-def (∪ x) (∪ y) λ w i → to (∪-def w y) (lm-1 w (back (∪-def w x) i))
     where lm-1 : (a : 𝕊) → ∃ (λ α → a ∈ α and α ∈ x) → ∃ λ α → a ∈ α and α ∈ y
           lm-1 a (∃-def .(λ α → a ∈ α and α ∈ x) b (and-def c d)) = ∃-def (λ α → a ∈ α and α ∈ y) b (and-def c (z b d))
 
 th-2 : (x : 𝕊) → x ⊆ 𝓟 (∪ x)
-th-2 x = ⊆-def x (𝓟 (∪ x)) λ y z → straight (𝓟-def y (∪ x)) (⊆-def y (∪ x) λ w i → straight (∪-def w x) (∃-def (λ j → w ∈ j and j ∈ x) y (and-def i z)))
+th-2 x = ⊆-def x (𝓟 (∪ x)) λ y z → to (𝓟-def y (∪ x)) (⊆-def y (∪ x) λ w i → to (∪-def w x) (∃-def (λ j → w ∈ j and j ∈ x) y (and-def i z)))
 
 th-3 : (x : 𝕊) → ∪ x ⊆ x → ∪ (𝓟 x) ⊆ 𝓟 x
 th-3 x (⊆-def .(∪ x) .x y) =
-    ⊆-def (∪ (𝓟 x)) (𝓟 x) λ z w → straight (𝓟-def z x) (⊆-def z x (λ i j → y i (straight (∪-def i x) (∃-def (λ α → i ∈ α and α ∈ x) z (and-def j (lm-1 z (back (∪-def z (𝓟 x)) w)))))))
+    ⊆-def (∪ (𝓟 x)) (𝓟 x) λ z w → to (𝓟-def z x) (⊆-def z x (λ i j → y i (to (∪-def i x) (∃-def (λ α → i ∈ α and α ∈ x) z (and-def j (lm-1 z (back (∪-def z (𝓟 x)) w)))))))
     where lm-1 : (z : 𝕊) → ∃ (λ α → z ∈ α and α ∈ 𝓟 x) → z ∈ x 
           lm-1 z (∃-def .(λ α → z ∈ α and α ∈ 𝓟 x) a (and-def b c)) = ⊆-to a x ((back (𝓟-def a x)) c) z b
 
 x-∈-x-⊥ : (x : 𝕊) → ¬(x ∈ x)
-x-∈-x-⊥ x = ¬-def (x ∈ x) λ y → ¬-to-⊥ (and-right (∃-application (foundation-ax (∃-element (pair-ax x x)) (∃-def (λ z → z ∈ ∃-element (pair-ax x x)) x lm-1))) {!!} {!!}) {!!}
+x-∈-x-⊥ x = ¬-def (x ∈ x) λ y → ¬-to-⊥ (and-right (∃-application (foundation-ax (∃-element (pair-ax x x)) (∃-def (λ z → z ∈ ∃-element (pair-ax x x)) x lm-1))) x lm-1) (lm-3 y)
     where lm-1 : x ∈ ∃-element (pair-ax x x)
           lm-1 = and-left (and-left (∃-application (pair-ax x x)))
-          lm-2 : x ∈ ∃-element (foundation-ax (∃-element (pair-ax x x)) (∃-def (λ z → z ∈ ∃-element (pair-ax x x)) x lm-1))
-          lm-2 = {!!}
+          lm-2 : ∃-element (foundation-ax (∃-element (pair-ax x x)) (∃-def (λ z → z ∈ ∃-element (pair-ax x x)) x lm-1)) == x
+          lm-2 = or-absorption (
+                     (and-right (∃-application (pair-ax x x)))
+                     (∃-element (foundation-ax (∃-element (pair-ax x x)) (∃-def (λ z → z ∈ ∃-element (pair-ax x x)) x lm-1)))
+                     (and-left (∃-application (foundation-ax (∃-element (pair-ax x x)) (∃-def (λ z → z ∈ ∃-element (pair-ax x x)) x lm-1))))
+                 )
+          lm-3 : (x ∈ x) → x ∈ ∃-element (foundation-ax (∃-element (pair-ax x x)) (∃-def (λ z → z ∈ ∃-element (pair-ax x x)) x lm-1))
+          lm-3 y = back (==-logic-eq lm-2 x) y
 
-paralel : (x : 𝕊) → ¬(x ∈ x)
-paralel x = {!!}
-
--- (and-right (∃-application (foundation-ax ? ?))) x ?
 
 set-of-all-sets-⊥ : ¬(∃ λ x → (y : 𝕊) → y ∈ x)
 set-of-all-sets-⊥ = ¬-def (∃ (λ x → (y : 𝕊) → y ∈ x)) λ { (∃-def .(λ x → (y : 𝕊) → y ∈ x) z w) → ¬-to-⊥ (x-∈-x-⊥ z) (w z) }
