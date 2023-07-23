@@ -63,11 +63,11 @@ postulate
 infix 50 _∈_
 
 data _==_ : 𝕊 → 𝕊 → Set where
-    ==-def : (x y : 𝕊) → ((z : 𝕊) → z ∈ x ≡ z ∈ y) → x == y
+    ==-def : {x y : 𝕊} → ((z : 𝕊) → z ∈ x ≡ z ∈ y) → x == y
 infixr 50 _==_
 
 ==-logic-eq : {x y : 𝕊} → x == y → (z : 𝕊) → z ∈ x ≡ z ∈ y
-==-logic-eq (==-def _ _ x) = x
+==-logic-eq (==-def x) = x
 
 data _⊆_ : 𝕊 → 𝕊 → Set where
     ⊆-def : (x y : 𝕊) → ((z : 𝕊) → z ∈ x → z ∈ y) → x ⊆ y 
@@ -89,33 +89,44 @@ postulate
 pair : 𝕊 → 𝕊 → 𝕊
 pair x y = ∃-element (pair-ax x y)
 
+pair-∈ : {x y z : 𝕊} → z ∈ pair x y → z == x or z == y
+pair-∈ {x} {y} {z} w = and-right (∃-application (pair-ax x y)) z w
+
+pair-left-∈ : {x y : 𝕊} → x ∈ pair x y
+pair-left-∈ {x} {y} = ∘ and-left and-left (∃-application (pair-ax x y))
+
+pair-right-∈ : {x y : 𝕊} → y ∈ pair x y
+pair-right-∈ {x} {y} = ∘ and-right and-left (∃-application (pair-ax x y))
+
 singleton : 𝕊 → 𝕊
 singleton x = pair x x
 
-pair-ax-∈ : {x y z : 𝕊} → z ∈ pair x y → z == x or z == y
-pair-ax-∈ {x} {y} {z} w = and-right (∃-application (pair-ax x y)) z w
-    
+singleton-∈ : {x y : 𝕊} → y ∈ singleton x → y == x
+singleton-∈ z = back or-double (pair-∈ z)
+
+singleton-single-∈ : {x : 𝕊} → x ∈ singleton x
+singleton-single-∈ {x} = pair-left-∈
+
 data 𝕊-∃! : (𝕊 → Set) → Set where
     𝕊-∃!-def : (x : 𝕊 → Set) → (y : 𝕊) → x y → ((z : 𝕊) → x z → y == z) → 𝕊-∃! x
 
 𝕊-∃!-∃ : {x : 𝕊 → Set} → 𝕊-∃! x → ∃ x
 𝕊-∃!-∃ (𝕊-∃!-def x y z _) = ∃-def x y z
 
-    
 union : 𝕊 → 𝕊 → 𝕊
 union x y = ∪ (pair x y)
 
 union-def : (x y z : 𝕊) → z ∈ (union x y) ≡ z ∈ x or z ∈ y
 union-def x y z = ≡-def (
                       and-def
-                      (λ w → lm-2 w (pair-ax-∈ (and-right (lm-1 w))))
+                      (λ w → lm-2 w (pair-∈ (and-right (lm-1 w))))
                       λ {
                           (or-def-left w) → to
-                                                    (∪-def z (pair x y))
-                                                    (∃-def (λ i → z ∈ i and i ∈ pair x y) x (and-def w ((∘ and-left and-left) (∃-application (pair-ax x y)))));
+                                                (∪-def z (pair x y))
+                                                (∃-def (λ i → z ∈ i and i ∈ pair x y) x (and-def w pair-left-∈));
                           (or-def-right w) → to
-                                                     (∪-def z (pair x y))
-                                                     (∃-def (λ i → z ∈ i and i ∈ pair x y) y (and-def w (∘ and-right and-left (∃-application (pair-ax x y)))))})
+                                                 (∪-def z (pair x y))
+                                                 (∃-def (λ i → z ∈ i and i ∈ pair x y) y (and-def w pair-right-∈))})
     where lm-1 : (w : z ∈ union x y) → z ∈ ∃-element (back (∪-def z (pair x y)) w) and ∃-element (back (∪-def z (pair x y)) w) ∈ pair x y
           lm-1 w = ∃-application (back (∪-def z (pair x y)) w)
           lm-2 : (w : z ∈ union x y) → ∃-element (back (∪-def z (pair x y)) w) == x or ∃-element (back (∪-def z (pair x y)) w) == y → z ∈ x or z ∈ y
@@ -136,7 +147,7 @@ postulate
              (λ x → (y : 𝕊) → ¬ (y ∈ x))
              ∅
              (λ y → ¬-def λ z → ¬-to-⊥ (∅-empty y) z)
-             λ y z → ==-def ∅ y λ w → ≡-def (and-def (λ i → ⊥-to-everything (¬-to-⊥ (∅-empty w) i)) λ i → ⊥-to-everything (¬-to-⊥ (z w) i))
+             λ y z → ==-def λ w → ≡-def (and-def (λ i → ⊥-to-everything (¬-to-⊥ (∅-empty w) i)) λ i → ⊥-to-everything (¬-to-⊥ (z w) i))
     
 th-1 : (x y : 𝕊) → x ⊆ y → (∪ x) ⊆ (∪ y)
 th-1 x y (⊆-def _ _ z) = ⊆-def (∪ x) (∪ y) λ w i → to (∪-def w y) (lm-1 w (back (∪-def w x) i))
@@ -153,17 +164,14 @@ th-3 x (⊆-def .(∪ x) .x y) =
           lm-1 z (∃-def .(λ α → z ∈ α and α ∈ 𝓟 x) a (and-def b c)) = ⊆-to a x ((back (𝓟-def a x)) c) z b
 
 x-∈-x-⊥ : (x : 𝕊) → ¬(x ∈ x)
-x-∈-x-⊥ x = ¬-def λ y → ¬-to-⊥ (and-right (∃-application (foundation-ax (singleton x) (∃-def (λ z → z ∈ singleton x) x lm-1))) x lm-1) (lm-3 y)
-    where lm-1 : x ∈ singleton x
-          lm-1 = and-left (and-left (∃-application (pair-ax x x)))
-          lm-2 : ∃-element (foundation-ax (singleton x) (∃-def (λ z → z ∈ singleton x) x lm-1)) == x
+x-∈-x-⊥ x = ¬-def λ y → ¬-to-⊥ (and-right (∃-application (foundation-ax (singleton x) (∃-def (λ z → z ∈ singleton x) x singleton-single-∈))) x singleton-single-∈) (lm-3 y)
+    where lm-2 : ∃-element (foundation-ax (singleton x) (∃-def (λ z → z ∈ singleton x) x singleton-single-∈)) == x
           lm-2 = (back or-double) (
                      (and-right (∃-application (pair-ax x x)))
-                     (∃-element (foundation-ax (singleton x) (∃-def (λ z → z ∈ singleton x) x lm-1)))
-                     (and-left (∃-application (foundation-ax (singleton x) (∃-def (λ z → z ∈ singleton x) x lm-1)))))
-          lm-3 : (x ∈ x) → x ∈ ∃-element (foundation-ax (singleton x) (∃-def (λ z → z ∈ singleton x) x lm-1))
+                     (∃-element (foundation-ax (singleton x) (∃-def (λ z → z ∈ singleton x) x singleton-single-∈)))
+                     (and-left (∃-application (foundation-ax (singleton x) (∃-def (λ z → z ∈ singleton x) x singleton-single-∈)))))
+          lm-3 : (x ∈ x) → x ∈ ∃-element (foundation-ax (singleton x) (∃-def (λ z → z ∈ singleton x) x singleton-single-∈))
           lm-3 y = back (==-logic-eq lm-2 x) y
-
 
 set-of-all-sets-⊥ : ¬(∃ λ x → (y : 𝕊) → y ∈ x)
 set-of-all-sets-⊥ = ¬-def λ { (∃-def .(λ x → (y : 𝕊) → y ∈ x) z w) → ¬-to-⊥ (x-∈-x-⊥ z) (w z) }
