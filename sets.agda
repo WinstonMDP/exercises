@@ -37,14 +37,21 @@ data ¬ : Set → Set where
 ¬-to-⊥ (¬-def _ y) = y
     
 data _or_ : Set → Set → Set where
-    or-def-l : (x y : Set) → x → x or y
-    or-def-r : (x y : Set) → y → x or y
+    or-def-left : (x y : Set) → x → x or y
+    or-def-right : (x y : Set) → y → x or y
 infixl 35 _or_
 
 or-absorption : {x : Set} → x or x → x
-or-absorption (or-def-l _ _ y) = y
-or-absorption (or-def-r _ _ y) = y
-    
+or-absorption (or-def-left _ _ y) = y
+or-absorption (or-def-right _ _ y) = y
+
+or-both-application : {x y : Set} → (x or y) → {z : Set → Set} → {w : Set → Set} → (x → z x) and (y → w y) → (z x or w y)
+or-both-application {x} {y} (or-def-left .x .y i) {z} {w} (and-def j _) = or-def-left (z x) (w y) (j i)
+or-both-application {x} {y} (or-def-right .x .y i) {z} {w} (and-def _ j) = or-def-right (z x) (w y) (j i)
+
+∘ : {x y z : Set} → (y → z) → (x → y) → (x → z)
+∘ w i = λ j → w (i j)   
+
 postulate
     𝕊 : Set
     _∈_ : 𝕊 → 𝕊 → Set
@@ -54,7 +61,7 @@ data _==_ : 𝕊 → 𝕊 → Set where
     ==-def : (x y : 𝕊) → ((z : 𝕊) → z ∈ x ≡ z ∈ y) → x == y
 infixr 50 _==_
 
-==-logic-eq : {x y : 𝕊} → x == y → (z : 𝕊) → (z ∈ x ≡ z ∈ y)
+==-logic-eq : {x y : 𝕊} → x == y → (z : 𝕊) → z ∈ x ≡ z ∈ y
 ==-logic-eq (==-def _ _ x) = x
 
 data _⊆_ : 𝕊 → 𝕊 → Set where
@@ -74,8 +81,8 @@ postulate
     foundation-ax : (x : 𝕊) → ∃ (λ y → y ∈ x) → ∃ λ y → y ∈ x and ((z : 𝕊) → z ∈ x → ¬(z ∈ y))
     subsets-ax : (x : 𝕊) → (y : 𝕊 → Set) → ∃ λ z → (w : 𝕊) → w ∈ z ≡ w ∈ x and y w
 
-pair-ax-∈-∃-element : {x y z : 𝕊} → z ∈ ∃-element (pair-ax x y) → z == x or z == y
-pair-ax-∈-∃-element {x} {y} {z} w = and-right (∃-application (pair-ax x y)) z w
+pair-ax-∈ : {x y z : 𝕊} → z ∈ ∃-element (pair-ax x y) → z == x or z == y
+pair-ax-∈ {x} {y} {z} w = and-right (∃-application (pair-ax x y)) z w
     
 data 𝕊-∃! : (𝕊 → Set) → Set where
     𝕊-∃!-def : (x : 𝕊 → Set) → (y : 𝕊) → x y → ((z : 𝕊) → x z → y == z) → 𝕊-∃! x
@@ -93,17 +100,27 @@ data be-∅ : 𝕊 → Set where
 
 -- ∅-𝕊-∃! : 𝕊-∃! λ x → be-∅ x
 -- ∅-𝕊-∃! = {!!}
-
+    
 union : 𝕊 → 𝕊 → 𝕊
 union x y = ∪ (∃-element (pair-ax x y))
 
 union-def : (x y z : 𝕊) → z ∈ (union x y) ≡ z ∈ x or z ∈ y
-union-def x y z = ≡-def (and-def (λ w → {!!}) λ w → {!!})
+union-def x y z = ≡-def (
+                      and-def (λ w → lm-2 w (pair-ax-∈ (and-right (lm-1 w))))
+                      λ {
+                          (or-def-left _ _ w) → to
+                                                    (∪-def z (∃-element (pair-ax x y)))
+                                                    (∃-def (λ i → z ∈ i and i ∈ ∃-element (pair-ax x y)) x (and-def w ((∘ and-left and-left) (∃-application (pair-ax x y)))));
+                          (or-def-right _ _ w) → to
+                                                     (∪-def z (∃-element (pair-ax x y)))
+                                                     (∃-def (λ i → z ∈ i and i ∈ ∃-element (pair-ax x y)) y (and-def w (∘ and-right and-left (∃-application (pair-ax x y)))))
+                      }
+                  )
     where lm-1 : (w : z ∈ (union x y)) → z ∈ ∃-element (back (∪-def z (∃-element (pair-ax x y))) w) and ∃-element (back (∪-def z (∃-element (pair-ax x y))) w) ∈ ∃-element (pair-ax x y)
           lm-1 w = ∃-application (back (∪-def z (∃-element (pair-ax x y))) w)
+          lm-2 : (w : z ∈ (union x y)) → ∃-element (back (∪-def z (∃-element (pair-ax x y))) w) == x or ∃-element (back (∪-def z (∃-element (pair-ax x y))) w) == y → z ∈ x or z ∈ y
+          lm-2 w i = or-both-application i (and-def (∘ (λ j → to (j z) (and-left (lm-1 w))) ==-logic-eq ) (∘ (λ j → to (j z) (and-left (lm-1 w))) ==-logic-eq))
 
--- pair-ax-∈-∃-element (and-right (lm-1 w i))
- 
 th-1 : (x y : 𝕊) → x ⊆ y → (∪ x) ⊆ (∪ y)
 th-1 x y (⊆-def _ _ z) = ⊆-def (∪ x) (∪ y) λ w i → to (∪-def w y) (lm-1 w (back (∪-def w x) i))
     where lm-1 : (a : 𝕊) → ∃ (λ α → a ∈ α and α ∈ x) → ∃ λ α → a ∈ α and α ∈ y
