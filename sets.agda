@@ -19,7 +19,7 @@ to (≡-def (and-def z _)) = z
 back : {x y : Set} → x ≡ y → y → x
 back (≡-def (and-def _ z)) = z
 
-data ∃ : {x : Set} → (y : x → Set) → Set where
+data ∃ : {x : Set} → (x → Set) → Set where
     ∃-def : {x : Set} → (y : x → Set) → (z : x) → y z → ∃ y
 
 ∃-element : {x : Set} → {y : x → Set} → ∃ y → x
@@ -39,7 +39,7 @@ data ¬ : Set → Set where
 data _or_ : Set → Set → Set where
     or-def-l : (x y : Set) → x → x or y
     or-def-r : (x y : Set) → y → x or y
-infixl 30 _or_
+infixl 35 _or_
 
 or-absorption : {x : Set} → x or x → x
 or-absorption (or-def-l _ _ y) = y
@@ -72,7 +72,38 @@ postulate
     𝓟 : 𝕊 → 𝕊 -- power axiom
     𝓟-def : (x y : 𝕊) → x ⊆ y ≡ x ∈ (𝓟 y)
     foundation-ax : (x : 𝕊) → ∃ (λ y → y ∈ x) → ∃ λ y → y ∈ x and ((z : 𝕊) → z ∈ x → ¬(z ∈ y))
+    subsets-ax : (x : 𝕊) → (y : 𝕊 → Set) → ∃ λ z → (w : 𝕊) → w ∈ z ≡ w ∈ x and y w
+
+pair-ax-∈-∃-element : {x y z : 𝕊} → z ∈ ∃-element (pair-ax x y) → z == x or z == y
+pair-ax-∈-∃-element {x} {y} {z} w = and-right (∃-application (pair-ax x y)) z w
     
+data 𝕊-∃! : (𝕊 → Set) → Set where
+    𝕊-∃!-def : (x : 𝕊 → Set) → (y : 𝕊) → x y → ((z : 𝕊) → x z → y == z) → 𝕊-∃! x
+
+𝕊-∃!-∃ : {x : 𝕊 → Set} → 𝕊-∃! x → ∃ x
+𝕊-∃!-∃ (𝕊-∃!-def x y z _) = ∃-def x y z
+
+data be-∅ : 𝕊 → Set where
+    be-∅-def : (x : 𝕊) → (y : (z : 𝕊) → ¬(z ∈ x)) → be-∅ x
+
+-- ∅ : 𝕊
+-- ∅ = {!!}
+
+-- ∃-element (subsets-ax ∅ λ x → ⊥)
+
+-- ∅-𝕊-∃! : 𝕊-∃! λ x → be-∅ x
+-- ∅-𝕊-∃! = {!!}
+
+union : 𝕊 → 𝕊 → 𝕊
+union x y = ∪ (∃-element (pair-ax x y))
+
+union-def : (x y z : 𝕊) → z ∈ (union x y) ≡ z ∈ x or z ∈ y
+union-def x y z = ≡-def (and-def (λ w → {!!}) λ w → {!!})
+    where lm-1 : (w : z ∈ (union x y)) → z ∈ ∃-element (back (∪-def z (∃-element (pair-ax x y))) w) and ∃-element (back (∪-def z (∃-element (pair-ax x y))) w) ∈ ∃-element (pair-ax x y)
+          lm-1 w = ∃-application (back (∪-def z (∃-element (pair-ax x y))) w)
+
+-- pair-ax-∈-∃-element (and-right (lm-1 w i))
+ 
 th-1 : (x y : 𝕊) → x ⊆ y → (∪ x) ⊆ (∪ y)
 th-1 x y (⊆-def _ _ z) = ⊆-def (∪ x) (∪ y) λ w i → to (∪-def w y) (lm-1 w (back (∪-def w x) i))
     where lm-1 : (a : 𝕊) → ∃ (λ α → a ∈ α and α ∈ x) → ∃ λ α → a ∈ α and α ∈ y
