@@ -8,12 +8,16 @@ id z = z
 data _and_ : Set → Set → Set where
     and-def : {x y : Set} → x → y → x and y
 infixl 40 _and_
+
 and-left : {x y : Set} → x and y → x
 and-left (and-def z _) = z
          
 and-right : {x y : Set} → x and y → y
 and-right (and-def _ z) = z
 
+and-commutativity : {x y : Set} → x and y → y and x
+and-commutativity (and-def z w) = and-def w z
+    
 data _≡_ : Set → Set → Set where
     ≡-def : {x y : Set} → (x → y) and (y → x) → x ≡ y
 infixr 30 _≡_
@@ -24,6 +28,9 @@ infixr 30 _≡_
 and-idempotency : {x : Set} → x and x ≡ x
 and-idempotency = ≡-def (and-def (λ { (and-def y _) → y }) λ y → and-def y y)
 
+and-associativity : {x y z : Set} → (x and y) and z ≡ x and (y and z)
+and-associativity = ≡-def (and-def (λ {(and-def (and-def w i) j) → and-def w (and-def i j)}) λ {(and-def w (and-def i j)) → and-def (and-def w i) j})
+ 
 to : {x y : Set} → x ≡ y → x → y
 to (≡-def (and-def z _)) = z
 
@@ -55,16 +62,37 @@ data _or_ : Set → Set → Set where
     or-def-right : {x y : Set} → y → x or y
 infixl 35 _or_
 
-or-application : {x y z w : Set} → (x or y) → (x → z) and (y → w) → (z or w)
-or-application {x} {y} {z} {w} (or-def-left i) (and-def j _) = or-def-left {z} {w} (j i)
-or-application {x} {y} {z} {w} (or-def-right i)  (and-def _ j) = or-def-right {z} {w} (j i)
+or-application : {x y z w : Set} → (x or y) → (x → z) → (y → w) → (z or w)
+or-application {_} {_} {z} {w} (or-def-left i) j _ = or-def-left {z} {w} (j i)
+or-application {_} {_} {z} {w} (or-def-right i) _ j = or-def-right {z} {w} (j i)
 
+or-commutativity : {x y : Set} → x or y → y or x
+or-commutativity (or-def-left z) = or-def-right z
+or-commutativity (or-def-right z) = or-def-left z
+
+or-associativity : {x y z : Set} → (x or y) or z ≡ x or (y or z)
+or-associativity = ≡-def (and-def
+                          (λ {(or-def-left (or-def-left w)) → or-def-left w;
+                              (or-def-left (or-def-right w)) → or-def-right (or-def-left w);
+                              (or-def-right w) → or-def-right (or-def-right w)})
+                          λ {(or-def-left w) → or-def-left (or-def-left w);
+                             (or-def-right (or-def-left w)) → or-def-left (or-def-right w);
+                             (or-def-right (or-def-right w)) → or-def-right w})
+    
 or-idempotency : {x : Set} → x or x ≡ x
 or-idempotency {x} = ≡-def (and-def (λ { (or-def-left y) → y ; (or-def-right y) → y }) λ y → or-def-left y)
 
 or-absorption : {x y : Set} → x or x and y → x
 or-absorption (or-def-left z) = z
 or-absorption (or-def-right (and-def z _)) = z
+
+or-and-distributivity : {x y z : Set} → x or y and z → (x or y) and (x or z)
+or-and-distributivity (or-def-left w) = and-def (or-def-left w) (or-def-left w)
+or-and-distributivity (or-def-right (and-def w i)) = and-def (or-def-right w) (or-def-right i)
+
+and-or-distributivity : {x y z : Set} → x and (y or z) → x and y or x and z
+and-or-distributivity (and-def w (or-def-left i)) = or-def-left (and-def w i)
+and-or-distributivity (and-def w (or-def-right i)) = or-def-right (and-def w i)
 
 _∘_ : {x y z : Set} → (y → z) → (x → y) → (x → z)
 _∘_ w i = λ j → w (i j)   
@@ -116,7 +144,14 @@ pair-right-∈ {x} {y} = (and-right ∘ and-left) (∃-application (pair-ax x y)
 
 pair-==-pair : {x y z w : 𝕊} → pair x y == pair z w → x == z and y == w or x == w and y == z
 pair-==-pair {x} {y} {z} {w} (==-def i) = {!!}
-     
+    where lm-1 : (x == z or x == w) and y == z or (x == z or x == w) and y == w
+          lm-1 = and-or-distributivity (and-def (pair-∈ (to (i x) pair-left-∈)) (pair-∈ (to (i y) pair-right-∈))) 
+          lm-2 = or-application
+                 ((and-or-distributivity ∘ and-commutativity) (and-def (pair-∈ (to (i y) pair-right-∈)) lm-1))
+                 (and-or-distributivity ∘ and-commutativity)
+                 (and-or-distributivity ∘ and-commutativity) 
+          lm-3 = or-application ((to or-associativity) lm-2) id ((λ j → or-application j (λ k → or-application k and-commutativity and-commutativity) id) ∘ (back or-associativity)) 
+   
 singleton : 𝕊 → 𝕊
 singleton x = pair x x
 
@@ -155,24 +190,23 @@ union-def x y z = ≡-def (and-def
     where lm-1 : (w : z ∈ union x y) → z ∈ ∃-element (back (∪-def z (pair x y)) w) and ∃-element (back (∪-def z (pair x y)) w) ∈ pair x y
           lm-1 w = ∃-application (back (∪-def z (pair x y)) w)
           lm-2 : (w : z ∈ union x y) → ∃-element (back (∪-def z (pair x y)) w) == x or ∃-element (back (∪-def z (pair x y)) w) == y → z ∈ x or z ∈ y
-          lm-2 w i = or-application i (and-def ((λ j → to (j z) (and-left (lm-1 w))) ∘ ==-logic-eq) ((λ j → to (j z) (and-left (lm-1 w))) ∘ ==-logic-eq))
-
-∅ : 𝕊
+          lm-2 w i = or-application i ((λ j → to (j z) (and-left (lm-1 w))) ∘ ==-logic-eq) ((λ j → to (j z) (and-left (lm-1 w))) ∘ ==-logic-eq)
 
 postulate
-    infinity-ax : ∃ λ x → ∅ ∈ x and ((y : 𝕊) → y ∈ x → (union y (singleton y)) ∈ x)
+    infinity-ax : ∃ λ x → ((z : 𝕊) → ((w : 𝕊) → ¬(w ∈ z)) → z ∈ x) and ((y : 𝕊) → y ∈ x → (union y (singleton y)) ∈ x)
 
+∅ : 𝕊
 ∅ = ∃-element (subsets-ax (∃-element infinity-ax) λ _ → ⊥)
 
-∅-empty : (x : 𝕊) → ¬ (x ∈ ∅)
-∅-empty x = ¬-def λ y → and-right (back (∃-application (subsets-ax (∃-element infinity-ax) (λ _ → ⊥)) x) y)
+∅-def : (x : 𝕊) → ¬(x ∈ ∅)
+∅-def x = ¬-def λ y → and-right (back (∃-application (subsets-ax (∃-element infinity-ax) (λ _ → ⊥)) x) y)
 
 ∅-𝕊-∃! : 𝕊-∃! λ x → (y : 𝕊) → ¬(y ∈ x)
 ∅-𝕊-∃! = 𝕊-∃!-def
          (λ x → (y : 𝕊) → ¬ (y ∈ x))
          ∅
-         (λ y → ¬-def λ z → ¬-to-⊥ (∅-empty y) z)
-         λ y z → ==-def λ w → ≡-def (and-def (λ i → ⊥-to-everything (¬-to-⊥ (∅-empty w) i)) λ i → ⊥-to-everything (¬-to-⊥ (z w) i))
+         (λ y → ¬-def λ z → ¬-to-⊥ (∅-def y) z)
+         λ y z → ==-def λ w → ≡-def (and-def (λ i → ⊥-to-everything (¬-to-⊥ (∅-def w) i)) λ i → ⊥-to-everything (¬-to-⊥ (z w) i))
 
 x-∈-x-⊥ : (x : 𝕊) → ¬(x ∈ x)
 x-∈-x-⊥ x = ¬-def λ y → ¬-to-⊥ (and-right (∃-application (foundation-ax (singleton x) (∃-def (λ z → z ∈ singleton x) x singleton-single-∈))) x singleton-single-∈) (lm-2 y)
@@ -198,7 +232,7 @@ tuple x y = pair (singleton x) (pair x y)
 tuple-def : (x y z w : 𝕊) → tuple x y == tuple z w ≡ x == z and y == w
 tuple-def x y z w = ≡-def (and-def (λ { (==-def i) → and-def (lm-1 i) {!!} }) {!!})
     where lm-1 : (i : (j : 𝕊) → j ∈ tuple x y ≡ j ∈ tuple z w) → x == z
-          lm-1 i = or-absorption (or-application (pair-∈ (to (i (singleton x)) pair-left-∈)) (and-def singleton-==-singleton singleton-==-pair))
+          lm-1 i = or-absorption (or-application (pair-∈ (to (i (singleton x)) pair-left-∈)) singleton-==-singleton singleton-==-pair)
 
 -- and-def (lm-1 i) (or-application (pair-∈ (to (i (pair x y)) pair-right-∈)) (and-def (singleton-==-pair ∘ ==-commutativity) pair-==-pair))
     
@@ -218,6 +252,6 @@ th-3 x (⊆-def y) = ⊆-def λ z w → to (𝓟-def z x) (⊆-def (λ i j → y
 th-4 : (x y : 𝕊) → x ⊆ y ≡ union x y == y
 th-4 x y = ≡-def (and-def
                   (λ {(⊆-def z) → ==-def λ w → ≡-def (and-def
-                                                      (λ i → to or-idempotency (or-application (back (union-def x y w) i) (and-def (z w) id)))
+                                                      (λ i → to or-idempotency (or-application (back (union-def x y w) i) (z w) id))
                                                       λ i → to (union-def x y w) (or-def-right i))})
                   λ {(==-def j) → ⊆-def λ w i → to (j w) (to (union-def x y w) (or-def-left i))})
